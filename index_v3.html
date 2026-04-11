@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ravi Kiran Achalla — AI Portfolio Bot</title>
+  <script src="config.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #000000;
+      --bg2:       #0c0c0c;
+      --bg3:       #161616;
+      --bg4:       #202020;
+      --border:    #242424;
+      --border2:   #333333;
+      --text:      #f5f5f5;
+      --text2:     #888888;
+      --text3:     #444444;
+      --white:     #ffffff;
+      --red:       #ff5555;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-body: 'Sora', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.6;
+      overflow: hidden;
+    }
+
+    /* ── LAYOUT ── */
+    .app {
+      display: grid;
+      grid-template-columns: 272px 1fr;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 3px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border2); }
+
+    .profile {
+      padding: 24px 20px 18px;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .avatar-ring {
+      width: 76px; height: 76px;
+      border-radius: 50%;
+      background: conic-gradient(#ffffff 0deg, #333333 180deg, #ffffff 360deg);
+      padding: 2px;
+      animation: ring-spin 7s linear infinite;
+    }
+
+    @keyframes ring-spin { to { transform: rotate(360deg); } }
+
+    .avatar-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: var(--bg3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+    }
+
+    .status-dot {
+      position: absolute; bottom: 2px; right: 2px;
+      width: 13px; height: 13px; border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--bg2);
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.3); }
+      50%      { box-shadow: 0 0 0 5px rgba(255,255,255,0); }
+    }
+
+    .profile-name {
+      font-size: 14px; font-weight: 700;
+      font-family: var(--font-mono);
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .profile-title {
+      font-size: 10px; color: var(--text2);
+      font-family: var(--font-mono);
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .profile-links {
+      display: flex; gap: 6px;
+      justify-content: center; flex-wrap: wrap;
+    }
+
+    .profile-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: var(--bg3); border: 1px solid var(--border2);
+      color: var(--text2); text-decoration: none;
+      font-size: 10px; font-family: var(--font-mono);
+      padding: 4px 9px; border-radius: 20px; transition: all 0.2s;
+    }
+
+    .profile-link:hover {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* Stats */
+    .stats {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    }
+
+    .stat-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 7px; padding: 9px 10px;
+    }
+
+    .stat-num {
+      font-family: var(--font-mono); font-size: 15px; font-weight: 700;
+      color: var(--white);
+    }
+
+    .stat-label { font-size: 9px; color: var(--text3); margin-top: 1px; }
+
+    /* Sidebar sections */
+    .sidebar-section {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-section-title {
+      font-size: 9px; font-family: var(--font-mono);
+      color: var(--text3); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+
+    .skill-tag {
+      font-size: 10px; font-family: var(--font-mono);
+      padding: 2px 7px; border-radius: 3px;
+      border: 1px solid var(--border2);
+      color: var(--text2); background: var(--bg3);
+    }
+
+    .skill-tag.hi { color: #f0f0f0; border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.04); }
+    .skill-tag.md { color: #b0b0b0; border-color: rgba(180,180,180,0.18); }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      font-size: 10px; font-family: var(--font-mono);
+      color: var(--text3); line-height: 1.9;
+    }
+
+    .sidebar-footer a { color: var(--text2); text-decoration: none; }
+    .sidebar-footer a:hover { color: var(--text); }
+
+    /* ── CHAT PANEL ── */
+    .chat-panel {
+      display: flex; flex-direction: column;
+      background: var(--bg); overflow: hidden;
+    }
+
+    /* Header */
+    .chat-header {
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .chat-header-left { display: flex; align-items: center; gap: 11px; }
+
+    .header-bot-icon {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: var(--bg3); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+    }
+
+    .header-title {
+      font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+    }
+
+    .header-sub { font-size: 10px; color: var(--text2); margin-top: 1px; }
+
+    .header-badge {
+      font-size: 10px; font-family: var(--font-mono);
+      padding: 3px 9px;
+      background: rgba(255,255,255,0.04);
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 20px; letter-spacing: 0.05em;
+    }
+
+    /* Messages area */
+    .messages-wrap {
+      flex: 1; overflow-y: auto;
+      padding: 20px 22px;
+      display: flex; flex-direction: column;
+      gap: 14px; scroll-behavior: smooth;
+    }
+
+    .messages-wrap::-webkit-scrollbar { width: 3px; }
+    .messages-wrap::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+    /* Welcome */
+    .welcome-block {
+      text-align: center; padding: 36px 20px;
+      animation: fade-up 0.5s ease both;
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .welcome-bot {
+      width: 60px; height: 60px; border-radius: 14px;
+      background: var(--bg3); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px; margin: 0 auto 14px;
+    }
+
+    .welcome-title {
+      font-family: var(--font-mono); font-size: 17px; font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .welcome-sub {
+      font-size: 12px; color: var(--text2);
+      max-width: 360px; margin: 0 auto;
+    }
+
+    /* Message bubbles */
+    .msg {
+      display: flex; gap: 9px;
+      animation: fade-up 0.25s ease both;
+      max-width: 800px;
+    }
+
+    .msg.user { flex-direction: row-reverse; align-self: flex-end; }
+    .msg.bot  { align-self: flex-start; }
+
+    .msg-avatar {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; background: var(--bg3); border: 1px solid var(--border2);
+    }
+
+    .msg.bot .msg-avatar { background: var(--bg4); border-color: rgba(255,255,255,0.12); }
+
+    .msg-bubble {
+      padding: 10px 14px; border-radius: 12px;
+      font-size: 13px; line-height: 1.65; max-width: 600px;
+    }
+
+    .msg.bot .msg-bubble {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-top-left-radius: 4px;
+    }
+
+    .msg.user .msg-bubble {
+      background: var(--bg4); border: 1px solid var(--border2);
+      color: var(--text); border-top-right-radius: 4px;
+    }
+
+    .msg-bubble p { margin-bottom: 5px; }
+    .msg-bubble p:last-child { margin-bottom: 0; }
+    .msg-bubble strong { color: var(--white); font-weight: 600; }
+    .msg-bubble ul { padding-left: 16px; margin: 5px 0; }
+    .msg-bubble li { margin-bottom: 2px; }
+
+    .msg-time {
+      font-size: 9px; color: var(--text3);
+      font-family: var(--font-mono); margin-top: 3px;
+    }
+
+    .msg.bot  .msg-time { text-align: left; }
+    .msg.user .msg-time { text-align: right; }
+
+    /* Typing indicator */
+    .typing-indicator { display: flex; gap: 9px; align-items: center; animation: fade-up 0.25s ease both; }
+
+    .typing-dots {
+      display: flex; gap: 4px; padding: 11px 14px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 12px; border-top-left-radius: 4px;
+    }
+
+    .typing-dots span {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--text2);
+      animation: bounce 1.2s ease-in-out infinite;
+    }
+
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%,60%,100% { transform: translateY(0); opacity: 0.3; }
+      30%          { transform: translateY(-5px); opacity: 1; }
+    }
+
+    /* ── FAQ ACCORDION ── */
+    .faq-accordion {
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+      flex-shrink: 0;
+    }
+
+    .faq-toggle {
+      width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 22px;
+      background: transparent;
+      border: none; cursor: pointer;
+      color: var(--text2);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      user-select: none;
+    }
+
+    .faq-toggle:hover { color: var(--white); }
+
+    .faq-toggle-left { display: flex; align-items: center; gap: 7px; }
+
+    .faq-arrow {
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .faq-accordion.open .faq-arrow { transform: rotate(180deg); }
+
+    .faq-body {
+      display: none;
+      padding: 6px 22px 12px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .faq-accordion.open .faq-body { display: flex; }
+
+    .faq-btn {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      font-family: var(--font-body);
+      font-size: 11px;
+      padding: 5px 13px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+
+    .faq-btn:hover {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.38);
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-1px);
+    }
+
+    /* ── INPUT AREA ── */
+    .input-area {
+      padding: 11px 22px 16px;
+      background: var(--bg2);
+      flex-shrink: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .input-row {
+      display: flex; gap: 9px; align-items: flex-end;
+      background: var(--bg3); border: 1px solid var(--border2);
+      border-radius: 11px; padding: 9px 11px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-row:focus-within {
+      border-color: rgba(255,255,255,0.38);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
+    }
+
+    .chat-input {
+      flex: 1; background: transparent; border: none; outline: none;
+      color: var(--text); font-family: var(--font-body);
+      font-size: 13.5px; line-height: 1.5;
+      resize: none; max-height: 120px; min-height: 21px;
+    }
+
+    .chat-input::placeholder { color: var(--text3); }
+
+    .send-btn {
+      width: 34px; height: 34px; border-radius: 8px; border: none;
+      background: var(--bg4); border: 1px solid var(--border2);
+      color: var(--text); cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.18s;
+    }
+
+    .send-btn:hover:not(:disabled) {
+      background: var(--white);
+      color: var(--bg);
+      border-color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    .send-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+    .input-footer {
+      margin-top: 7px; font-size: 9px; color: var(--text3);
+      font-family: var(--font-mono); text-align: center;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 768px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="profile">
+      <div class="avatar-wrap">
+        <div class="avatar-ring"><div class="avatar-inner">👨‍💻</div></div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="profile-name">Ravi Kiran Achalla</div>
+      <div class="profile-title">// Senior Manager II · Walmart</div>
+      <div class="profile-links">
+        <a href="https://github.com/achallakiran" target="_blank" class="profile-link">
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/ravikiran-achalla" target="_blank" class="profile-link">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-num">15<span style="font-size:10px;color:var(--text2)">yr</span></div>
+        <div class="stat-label">Experience</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">$5M</div>
+        <div class="stat-label">Cloud Savings</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">25</div>
+        <div class="stat-label">Team Size</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">AI Products</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">// Core Skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag hi">GenAI & LLM</span>
+        <span class="skill-tag hi">Agentic AI</span>
+        <span class="skill-tag hi">Data Architecture</span>
+        <span class="skill-tag md">GCP</span>
+        <span class="skill-tag md">BigQuery</span>
+        <span class="skill-tag md">Spark</span>
+        <span class="skill-tag md">Python</span>
+        <span class="skill-tag md">PySpark</span>
+        <span class="skill-tag">Kafka</span>
+        <span class="skill-tag">Airflow</span>
+        <span class="skill-tag">Hadoop</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">// Awards</div>
+      <div style="font-size:10px;color:var(--text2);line-height:2.1;">
+        🏆 Walmart Excellence Award · 2024, 2018, 2011<br>
+        ⚡ Spark Hackathon · 2022<br>
+        💡 Inspiring Innovation · 2021
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">// Certifications</div>
+      <div style="font-size:10px;color:var(--text2);line-height:2.0;">
+        📘 iLead · Walmart / IIMB<br>
+        🤖 Agentic AI Advanced · Coursera<br>
+        💾 Cassandra · Datastax<br>
+        🐧 Red Hat Certified Linux
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      📍 Bengaluru, India<br>
+      ✉️ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="badbd9d2dbd6d6dbd1d3c8dbd4faddd7dbd3d694d9d5d7">[email&#160;protected]</a><br>
+      🎓 B.Tech CSE · KIITS · 2009<br>
+      📄 <a href="https://patents.google.com/patent/US11138241B2" target="_blank">Patent: Metrics Definition Tool</a>
+    </div>
+  </aside>
+
+  <!-- ── CHAT PANEL ── -->
+  <main class="chat-panel">
+
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="header-bot-icon" id="headerBotIcon">🤖</div>
+        <div>
+          <div class="header-title">ravi-bot<span style="color:var(--text3)">.ai</span></div>
+          <div class="header-sub">Ask me anything about Ravi's background</div>
+        </div>
+      </div>
+      <a href="resume.html" target="_blank" style="font-size:10px;font-family:var(--font-mono);padding:3px 9px;background:rgba(255,255,255,0.04);color:var(--white);border:1px solid rgba(255,255,255,0.14);border-radius:20px;letter-spacing:0.05em;text-decoration:none;display:flex;align-items:center;gap:5px;">📄 Resume ↗</a><div class="header-badge">● ONLINE</div>
+    </div>
+
+    <div class="messages-wrap" id="messagesWrap">
+      <div class="welcome-block" id="welcomeBlock">
+        <div class="welcome-bot">🤖</div>
+        <div class="welcome-title">Hey, I'm Ravi's AI assistant</div>
+        <div class="welcome-sub">Ask me anything about Ravi's experience, skills, projects, or achievements. I answer based on his resume.</div>
+      </div>
+    </div>
+
+    <!-- ── FAQ ACCORDION ── -->
+    <div class="faq-accordion" id="faqAccordion">
+      <button class="faq-toggle" id="faqToggle">
+        <div class="faq-toggle-left">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          Suggested Questions
+        </div>
+        <!-- Down/Up arrow -->
+        <svg class="faq-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+      <div class="faq-body" id="faqBody"></div>
+    </div>
+
+    <!-- ── INPUT ── -->
+    <div class="input-area">
+      <div class="input-row">
+        <textarea
+          class="chat-input"
+          id="chatInput"
+          placeholder="Ask about Ravi's experience, skills, projects..."
+          rows="1"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" title="Send">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="input-footer">Powered by Sarvam AI · Trained on Ravi's resume</div>
+    </div>
+
+  </main>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── EXPRESSIONS ────────────────────────────────────────────────
+const EXPRESSIONS = {
+  neutral:  { emoji: '🤖' },
+  thinking: { emoji: '🤔' },
+  happy:    { emoji: '😊' },
+  unsure:   { emoji: '🤷' },
+  error:    { emoji: '😅' },
+};
+
+function setExpression(name) {
+  document.getElementById('headerBotIcon').textContent = (EXPRESSIONS[name] || EXPRESSIONS.neutral).emoji;
+}
+
+// ── CHAT STATE ─────────────────────────────────────────────────
+const conversationHistory = [];
+let isLoading = false;
+
+// ── DOM REFS ───────────────────────────────────────────────────
+const messagesWrap = document.getElementById('messagesWrap');
+const chatInput    = document.getElementById('chatInput');
+const sendBtn      = document.getElementById('sendBtn');
+const welcomeBlock = document.getElementById('welcomeBlock');
+const faqAccordion = document.getElementById('faqAccordion');
+const faqToggle    = document.getElementById('faqToggle');
+const faqBody      = document.getElementById('faqBody');
+
+// ── FAQ ACCORDION ──────────────────────────────────────────────
+faqToggle.addEventListener('click', () => {
+  faqAccordion.classList.toggle('open');
+});
+
+// FAQ questions — inline fallback so they always show even without config.js
+const FALLBACK_QUESTIONS = [
+  "What's Ravi's current role?",
+  "Tell me about cloud cost savings",
+  "What AI/GenAI work has Ravi done?",
+  "What are Ravi's key skills?",
+  "Tell me about Ravi's patents",
+  "What certifications does Ravi hold?",
+  "Describe Ravi's biggest achievements"
+];
+
+const faqQuestions = (typeof CONFIG !== 'undefined' && CONFIG.STARTER_QUESTIONS)
+  ? CONFIG.STARTER_QUESTIONS
+  : FALLBACK_QUESTIONS;
+
+faqQuestions.forEach(q => {
+  const btn = document.createElement('button');
+  btn.className = 'faq-btn';
+  btn.textContent = q;
+  btn.addEventListener('click', () => {
+    sendMessage(q);
+    faqAccordion.classList.remove('open');
+  });
+  faqBody.appendChild(btn);
+});
+
+// ── AUTO-RESIZE TEXTAREA ───────────────────────────────────────
+chatInput.addEventListener('input', () => {
+  chatInput.style.height = 'auto';
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+});
+
+// ── UTILITIES ──────────────────────────────────────────────────
+function getTime() {
+  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function scrollToBottom() {
+  messagesWrap.scrollTop = messagesWrap.scrollHeight;
+}
+
+function formatText(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.+)/gm, '<li>$1</li>')
+    .replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>')
+    .split('\n\n')
+    .map(block => block.trim() ? (block.startsWith('<') ? block : `<p>${block.replace(/\n/g, '<br>')}</p>`) : '')
+    .join('');
+}
+
+// ── APPEND MESSAGE ─────────────────────────────────────────────
+function appendMessage(role, text, expression = 'neutral') {
+  if (welcomeBlock && !welcomeBlock.hidden) welcomeBlock.hidden = true;
+
+  const expr = EXPRESSIONS[expression] || EXPRESSIONS.neutral;
+
+  const wrap = document.createElement('div');
+  wrap.className = `msg ${role}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = role === 'bot' ? expr.emoji : '👤';
+
+  const col = document.createElement('div');
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = role === 'bot' ? formatText(text) : '';
+  if (role === 'user') bubble.textContent = text;
+
+  const time = document.createElement('div');
+  time.className = 'msg-time';
+  time.textContent = getTime();
+
+  col.appendChild(bubble);
+  col.appendChild(time);
+  wrap.appendChild(avatar);
+  wrap.appendChild(col);
+  messagesWrap.appendChild(wrap);
+  scrollToBottom();
+}
+
+// ── TYPING INDICATOR ───────────────────────────────────────────
+function showTyping() {
+  const wrap = document.createElement('div');
+  wrap.className = 'typing-indicator';
+  wrap.id = 'typingIndicator';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = '🤔';
+  avatar.style.cssText = 'background:#1a1a1a;border-color:rgba(255,255,255,0.12)';
+
+  const dots = document.createElement('div');
+  dots.className = 'typing-dots';
+  dots.innerHTML = '<span></span><span></span><span></span>';
+
+  wrap.appendChild(avatar);
+  wrap.appendChild(dots);
+  messagesWrap.appendChild(wrap);
+  scrollToBottom();
+}
+
+function hideTyping() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+// ── API CALL ───────────────────────────────────────────────────
+async function callSarvam(userMessage) {
+  const apiKey = (typeof CONFIG !== 'undefined') ? CONFIG?.SARVAM_API_KEY : '';
+  const apiUrl  = (typeof CONFIG !== 'undefined') ? CONFIG?.SARVAM_API_URL  : '';
+  const model   = (typeof CONFIG !== 'undefined') ? CONFIG?.SARVAM_MODEL    : '';
+  const prompt  = (typeof CONFIG !== 'undefined') ? CONFIG?.SYSTEM_PROMPT   : '';
+
+  if (!apiKey || apiKey === 'YOUR_SARVAM_API_KEY_HERE') {
+    return { text: '⚠️ No API key configured. Add your Sarvam AI key to config.js to enable responses.', expression: 'error' };
+  }
+
+  const messages = [...conversationHistory, { role: 'user', content: userMessage }];
+
+  try {
+    const res = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-subscription-key': apiKey
+      },
+      body: JSON.stringify({
+        model: model,
+        messages: [
+          { role: 'system', content: prompt },
+          ...messages
+        ],
+        max_tokens: 800,
+        temperature: 0.5
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      console.error('Sarvam error:', res.status, err);
+      return { text: `API error (${res.status}). Check your API key and try again.`, expression: 'error' };
+    }
+
+    const data = await res.json();
+    const raw = data?.choices?.[0]?.message?.content || "I couldn't generate a response. Please try again.";
+
+    // Strip thinking tags
+    const replyText = raw
+      .replace(/<think[\s\S]*?<\/think>/gi, '')
+      .replace(/<thinking[\s\S]*?<\/thinking>/gi, '')
+      .replace(/<thought[\s\S]*?<\/thought>/gi, '')
+      .trim();
+
+    const unsureKeywords = ["don't have", "not covered", "reach out", "contact ravi", "not in the resume"];
+    const expr = unsureKeywords.some(k => replyText.toLowerCase().includes(k)) ? 'unsure' : 'happy';
+
+    return { text: replyText, expression: expr };
+
+  } catch (e) {
+    console.error('Fetch error:', e);
+    return { text: 'Network error. Check your connection and try again.', expression: 'error' };
+  }
+}
+
+// ── SEND MESSAGE ───────────────────────────────────────────────
+async function sendMessage(text) {
+  const msg = (text || chatInput.value).trim();
+  if (!msg || isLoading) return;
+
+  isLoading = true;
+  sendBtn.disabled = true;
+  chatInput.value = '';
+  chatInput.style.height = 'auto';
+
+  appendMessage('user', msg);
+  setExpression('thinking');
+  showTyping();
+
+  const { text: reply, expression } = await callSarvam(msg);
+
+  hideTyping();
+  setExpression(expression);
+  appendMessage('bot', reply, expression);
+
+  conversationHistory.push({ role: 'user', content: msg });
+  conversationHistory.push({ role: 'assistant', content: reply });
+  if (conversationHistory.length > 20) conversationHistory.splice(0, 2);
+
+  isLoading = false;
+  sendBtn.disabled = false;
+  chatInput.focus();
+}
+
+// ── EVENT LISTENERS ────────────────────────────────────────────
+sendBtn.addEventListener('click', () => sendMessage())
