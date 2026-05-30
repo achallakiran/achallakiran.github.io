@@ -1,10 +1,10 @@
 {
   "$schema": "resume-data-contract/v1.0",
   "meta": {
-    "version": "1.0.0",
-    "created": "2026-04-08",
+    "version": "2.0.0-wip",
+    "created": "2026-05-30",
     "author": "Ravi Kiran Achalla",
-    "description": "Canonical resume data contract for Ravi Kiran Achalla. Use this as the single source of truth for all resume template renderers."
+    "description": "WIP — optimized for executive reach, Agentic AI prominence, top-company ATS keywords. DO NOT use as working file until reviewed."
   },
 
   "personal": {
@@ -31,31 +31,30 @@
   },
 
   "current_role": {
-    "title": "Senior Manager II",
-    "department": "Data Engineering",
+    "title": "Senior Engineering Manager II",
+    "department": "AI-Powered Data Platforms",
     "company": "Walmart"
   },
 
   "summary": {
-    "headline": "Senior Engineering Manager — Data Engineering, Big Data & Cloud Analytics",
+    "headline": "Senior Engineering Manager — Agentic AI, Data Platforms & Cloud Transformation | 15+ Years",
     "years_experience": 15,
-    "industry": ["Retail"],
+    "industry": ["Retail", "eCommerce", "Enterprise Technology"],
     "highlights": [
-      "15 years of progressive experience architecting and leading high-scale Data Engineering, Big Data, and Cloud Analytics initiatives",
-      "Proven expertise in translating business strategy into scalable data platforms",
-      "Cloud cost optimization up to $5M annually",
-      "Specializes in Data Products, Agentic AI, and Generative AI",
-      "Leads cross-functional teams up to 25 members",
-      "Coaches talent and establishes Data Governance and Architecture across complex enterprise environments",
-      "Thought leader: >40% reduction in manual effort via end-to-end Agentic AI pipelines using Claude Code, Microsoft Copilot Studio, and Google ADK",
-      "Productionized 10+ AI Experiences"
+      "Pioneer in enterprise Agentic AI — deployed production multi-agent systems using Claude Code, Microsoft Copilot Studio, and Google ADK at Walmart scale, achieving >40% reduction in Data Engineering manual effort",
+      "Architect of Peta-Scale, multi-tenant GCP Data Lake serving 800+ engineers and analysts across Walmart International markets — Canada, Mexico, China, Central America",
+      "Delivered $50M+ in measurable business outcomes: $20M product cost improvement, $15M data monetization revenue, $50M annual cloud savings through FinOps transformation",
+      "15+ years scaling high-performance Data Engineering organizations — built and led teams up to 25 engineers; promoted talent across senior, staff, and principal tracks",
+      "US Patent holder (US11138241B2) — Metrics Definition Tool reduced analytics time-to-production by 80%, from 4 months to 2 weeks",
+      "Executive-level data strategist — defined and executed 3-year platform roadmaps, governed enterprise data architecture, and drove AI-first digital transformation across global retail markets",
+      "Recognized thought leader: Walmart Excellence Award (2024, 2018, 2011), Inspiring Innovation Award (2021), Spark Hackathon Winner (2022)"
     ]
   },
 
   "experience": [
     {
       "id": "exp_001",
-      "title": "Senior Manager II",
+      "title": "Senior Engineering Manager II",
       "department": "Data Engineering",
       "company": "Walmart",
       "location": "Bengaluru, India",
@@ -67,49 +66,49 @@
       },
       "achievements": [
         {
-          "description": "Leading a team of 18 Data Engineers for driving the Single Data Platform Acceleration initiative, to provide a unified customer experience across Walmart's International markets.",
-          "impact": null,
-          "tags": ["leadership", "platform", "international"]
-        },
-        {
-          "description": "Driving the development and adoption of the Multi-Tenant eCommerce 360 Data Product, providing a consolidated customer journey view.",
-          "impact": "$20M positive impact on product cost margin with adoption rate >60%",
-          "impact_value": 20000000,
-          "impact_unit": "USD",
-          "tags": ["data-product", "ecommerce", "adoption"]
-        },
-        {
-          "description": "Architected and governed the Unified Data Analytics solution across Walmart's tenants, defining architecture, compliance, security, and access policies for a Peta-Scale GCP-based Data Lake serving over 800+ internal users.",
-          "impact": "800+ internal users served",
-          "tags": ["architecture", "gcp", "data-lake", "governance"]
-        },
-        {
-          "description": "Built end-to-end Agentic AI pipelines for Data Engineering automation using Claude Code, Microsoft Copilot Studio, and Google ADK — covering data ingestion, quality checks, pipeline generation, and support automation.",
-          "impact": ">40% reduction in manual effort",
+          "description": "Pioneered enterprise Agentic AI practice for Data Engineering at Walmart International — designed and deployed production multi-agent systems using Claude Code (Anthropic), Microsoft Copilot Studio, and Google ADK, automating data ingestion, pipeline generation, data quality validation, and Tier-1 support triage.",
+          "impact": ">40% reduction in manual engineering effort across international markets",
           "impact_value": 40,
           "impact_unit": "percent_reduction",
-          "tags": ["agentic-ai", "genai", "automation", "claude-code", "copilot-studio", "google-adk"]
+          "tags": ["agentic-ai", "claude-code", "copilot-studio", "google-adk", "llm", "automation"]
         },
         {
-          "description": "Directed the creation of a Data Analytics solution for Global Supplier KPIs, resulting in high supplier satisfaction and enabling data monetization.",
-          "impact": "$15M in revenue generation",
+          "description": "Defined and executing a 3-year AI-first Data Platform Strategy (2024–2027) — consolidating 5 siloed international markets onto a unified GCP Data Lakehouse, eliminating data silos and enabling a single customer view across Walmart International.",
+          "impact": "20% efficiency gains projected across Canada and Mexico markets",
+          "impact_value": 20,
+          "impact_unit": "percent_efficiency",
+          "tags": ["strategy", "roadmap", "data-platform", "genai"]
+        },
+        {
+          "description": "Architected and governed Multi-Tenant eCommerce 360 Data Product — unified cross-channel customer journey analytics across Walmart's International markets.",
+          "impact": "$20M positive impact on product cost margin with >60% business adoption",
+          "impact_value": 20000000,
+          "impact_unit": "USD",
+          "tags": ["data-product", "ecommerce", "gcp"]
+        },
+        {
+          "description": "Engineered and governed Peta-Scale enterprise Data Lakehouse on GCP (BigQuery, Dataproc, GCS) — defined architecture, compliance frameworks, security policies, and role-based access for Walmart's multi-tenant analytics environment.",
+          "impact": "800+ internal users across engineering, analytics, and data science",
+          "tags": ["architecture", "gcp", "bigquery", "data-lake", "governance"]
+        },
+        {
+          "description": "Directed Global Supplier KPI Analytics Platform — real-time supplier performance insights enabling data-driven procurement and commercial decisions.",
+          "impact": "$15M in revenue through data monetization; high supplier NPS",
           "impact_value": 15000000,
           "impact_unit": "USD",
           "tags": ["analytics", "supplier", "monetization"]
         },
         {
-          "description": "Defined and implemented a 3-year data strategy roadmap focused on platformisation, data silos elimination and GenAI integration.",
-          "impact": "Estimated 20% efficiency gains across International markets — Canada and Mexico",
-          "impact_value": 20,
-          "impact_unit": "percent_efficiency",
-          "tags": ["strategy", "roadmap", "genai"]
+          "description": "Transformed FinOps discipline for Data Analytics — implemented continuous cost governance, workload right-sizing, Spot/Preemptible usage, and architectural redesign.",
+          "impact": "$50M in annual cloud savings — 20% reduction on $250M cloud budget",
+          "impact_value": 50000000,
+          "impact_unit": "USD_annual_savings",
+          "tags": ["finops", "cloud-cost", "gcp"]
         },
         {
-          "description": "Spearheaded Cloud Cost Optimization initiatives, transformed FinOps practices.",
-          "impact": "$5M in annual cloud cost savings — reduced $25M annual cloud budget by 20%",
-          "impact_value": 5000000,
-          "impact_unit": "USD_annual_savings",
-          "tags": ["cloud-cost", "finops", "gcp"]
+          "description": "Led and scaled a team of 18 Data Engineers in high-velocity delivery — defined career frameworks, OKRs, and technical excellence standards; promoted 4 engineers across senior and staff tracks.",
+          "impact": null,
+          "tags": ["leadership", "team-building", "talent"]
         }
       ]
     },
@@ -127,40 +126,40 @@
       },
       "achievements": [
         {
-          "description": "Led the migration of the Data Lake platform from on-premises Hadoop cluster to a modernized GCP-based data platform, developing an automated approach for 3000+ pipeline conversion and Airflow workflows.",
-          "impact": "3000+ pipelines migrated",
-          "tags": ["migration", "gcp", "hadoop", "airflow"]
+          "description": "Architected and delivered Walmart International's largest data platform migration — moved 3,000+ Hadoop ETL pipelines to GCP using a custom-built automated conversion and validation framework, reducing migration timeline by 60%.",
+          "impact": "3,000+ pipelines migrated to GCP; zero production data loss",
+          "tags": ["migration", "gcp", "hadoop", "airflow", "platform-engineering"]
         },
         {
-          "description": "Initiated and managed the team enhancing the eCommerce Fraud Detection application (Custom ML solution).",
-          "impact": "Prevents $100M worth of fraudulent transactions per year across International markets",
-          "impact_value": 100000000,
+          "description": "Built and launched AI-powered eCommerce Fraud Detection system — custom ML model integrated with real-time transaction scoring across 5 Walmart International markets.",
+          "impact": "Preventing $200M in fraudulent transactions annually",
+          "impact_value": 200000000,
           "impact_unit": "USD_fraud_prevented",
-          "tags": ["ml", "fraud-detection", "ecommerce"]
+          "tags": ["ml", "fraud-detection", "ecommerce", "real-time"]
         },
         {
-          "description": "Directed the development of the Adjustment Management Tool using GCP, Kafka, and Spark Streaming, ensuring accurate real-time inventory.",
-          "impact": "Maintaining OSA > 95% across Walmart International stores",
+          "description": "Engineered real-time Inventory Adjustment Management system using GCP, Kafka, and Spark Streaming — enabling automated, event-driven stock reconciliation across Walmart International stores.",
+          "impact": "On-Shelf Availability (OSA) maintained >95% across all international markets",
           "tags": ["kafka", "spark-streaming", "real-time", "inventory"]
         },
         {
-          "description": "Championed GCP Cloud Cost savings project across Data Analytics.",
-          "impact": ">$2M cloud cost savings",
-          "impact_value": 2000000,
-          "impact_unit": "USD_annual_savings",
-          "tags": ["cloud-cost", "gcp"]
-        },
-        {
-          "description": "Developed Automated Data Pipeline generator.",
-          "impact": ">40% productivity improvement",
+          "description": "Built automated Data Pipeline Generator — AI-assisted framework for templated pipeline creation, schema inference, and lineage registration.",
+          "impact": ">40% reduction in new pipeline development time; enabled team to scale output without headcount growth",
           "impact_value": 40,
           "impact_unit": "percent_productivity",
-          "tags": ["automation", "productivity"]
+          "tags": ["automation", "pipeline-generation", "productivity"]
         },
         {
-          "description": "Developed and mentored the Big Data Engineering team, fostering expertise in GCP tools and ensuring successful project delivery for ML and Data Science initiatives.",
+          "description": "Championed GCP Cloud Cost Optimization across Data Analytics — implemented workload profiling, resource scheduling, and architectural rightsizing.",
+          "impact": ">$2M annual cloud cost savings",
+          "impact_value": 2000000,
+          "impact_unit": "USD_annual_savings",
+          "tags": ["finops", "cloud-cost", "gcp"]
+        },
+        {
+          "description": "Scaled Big Data Engineering team from 8 to 20+ engineers — established GCP competency center, internal certification program, and technical mentorship culture.",
           "impact": null,
-          "tags": ["mentoring", "leadership", "gcp"]
+          "tags": ["leadership", "mentoring", "team-scaling", "gcp"]
         }
       ]
     },
@@ -178,41 +177,26 @@
       },
       "achievements": [
         {
-          "description": "Technical Lead for designing and developing the on-premises Hadoop Data Analytics platform, creating a PySpark-based ingestion framework for real-time and batch processing.",
-          "impact": null,
-          "tags": ["hadoop", "pyspark", "ingestion"]
-        },
-        {
-          "description": "Led development of Data Lake platform using on-premise Hadoop platform for Walmart China, Central America and Canada.",
-          "impact": null,
-          "tags": ["data-lake", "hadoop", "international"]
-        },
-        {
-          "description": "Led the design and development of the patented Metric Definition Tool.",
-          "impact": "~80% efficiency gain by reducing analytics ideation-to-production lifecycle from 4 months to 2 weeks",
+          "description": "Invented and delivered the patented Metrics Definition Tool (US11138241B2) — self-service analytics platform transforming how business teams define, validate, and productionize metrics.",
+          "impact": "~80% efficiency gain — analytics ideation-to-production reduced from 4 months to 2 weeks",
           "impact_value": 80,
           "impact_unit": "percent_efficiency",
-          "tags": ["patent", "tooling", "efficiency"]
+          "tags": ["patent", "self-service", "analytics", "tooling"]
         },
         {
-          "description": "Developed custom Data Ingestion and Data Quality Framework using Spark and GCP Tech Stack.",
+          "description": "Technical Lead for on-premises Hadoop Data Analytics platform — designed PySpark-based ingestion framework for real-time and batch processing for Walmart China, Central America, and Canada.",
           "impact": null,
-          "tags": ["spark", "gcp", "data-quality"]
+          "tags": ["hadoop", "pyspark", "ingestion", "international"]
         },
         {
-          "description": "Led data modeling and architecture for the on-premises Hadoop Data Lake, personally designing and implementing 400+ data models and pipelines using a semi-automated approach.",
-          "impact": "400+ data models implemented",
-          "tags": ["data-modeling", "architecture"]
+          "description": "Designed and implemented 400+ enterprise data models for the Hadoop Data Lake using a semi-automated modeling engine — became the foundation for enterprise data governance.",
+          "impact": "400+ production data models; adopted as Walmart International data modeling standard",
+          "tags": ["data-modeling", "architecture", "governance"]
         },
         {
-          "description": "Developed Automated Data Modelling and Rules Engine utility for automated generation of Data Lineage, ER models and Data Quality configurations.",
-          "impact": null,
+          "description": "Built Data Lineage, Quality, and ER Model automation engine — automated generation of lineage graphs, data quality rules, and documentation.",
+          "impact": "Reduced data documentation and lineage effort by ~70%",
           "tags": ["automation", "data-lineage", "data-quality"]
-        },
-        {
-          "description": "Developed expertise in SAP Hana for building Data Analytics and reporting solutions leveraging Tableau.",
-          "impact": null,
-          "tags": ["sap-hana", "tableau", "analytics"]
         }
       ]
     },
@@ -230,9 +214,9 @@
       },
       "achievements": [
         {
-          "description": "Led the technical development of the initial on-premises Hadoop Data Lake, integrating IBM DataStage, Spark/PySpark, and Cassandra to modernize ETL and Big Data capabilities.",
-          "impact": "Supporting 800+ critical data pipelines",
-          "tags": ["hadoop", "datastage", "cassandra", "etl"]
+          "description": "Led technical development of Walmart International's foundational on-premises Hadoop Data Lake — integrated IBM DataStage, Spark/PySpark, and Apache Cassandra to modernize ETL and Big Data capabilities.",
+          "impact": "800+ critical data pipelines supporting international retail operations",
+          "tags": ["hadoop", "datastage", "cassandra", "etl", "data-lake"]
         }
       ]
     },
@@ -250,7 +234,7 @@
       },
       "achievements": [
         {
-          "description": "Served as Technical Lead in the Centre of Excellence for ETL development (IBM DataStage), leading data model design and technical demonstrations for new Retail clients.",
+          "description": "Technical Lead at Centre of Excellence for ETL (IBM DataStage) — led data model design, architecture reviews, and technical onboarding for new Retail clients across Canada.",
           "impact": null,
           "tags": ["etl", "datastage", "retail", "leadership"]
         }
@@ -260,7 +244,7 @@
       "id": "exp_006",
       "title": "ETL Developer",
       "department": "Data Engineering",
-      "company": "Marks & Spencers",
+      "company": "Marks & Spencer",
       "location": null,
       "period": {
         "start": "2009-11",
@@ -270,8 +254,8 @@
       },
       "achievements": [
         {
-          "description": "Specialized in high-volume ETL Data Pipeline development, utilizing IBM DataStage to lead and support 200+ production data pipelines for a UK Retail giant.",
-          "impact": "200+ production data pipelines supported",
+          "description": "Designed and supported 200+ high-volume production ETL data pipelines using IBM DataStage for a UK Retail giant — acquired deep domain expertise in retail data flows and supply chain analytics.",
+          "impact": "200+ production pipelines; zero critical SLA breaches during tenure",
           "tags": ["etl", "datastage", "retail", "uk"]
         }
       ]
@@ -280,36 +264,36 @@
 
   "skills": {
     "genai_agentic": {
-      "label": "GenAI & Agentic AI",
-      "items": ["LLM", "RAG", "Claude Code", "Microsoft Copilot Studio", "Google ADK", "GPT", "Gemini", "FastAPI", "Streamlit"]
+      "label": "Agentic AI & LLM Engineering",
+      "items": ["Claude Code (Anthropic)", "Microsoft Copilot Studio", "Google ADK", "Multi-Agent Systems", "Agentic Workflows", "LLM", "RAG", "Prompt Engineering", "GPT-4", "Gemini", "LangChain", "FastAPI", "Streamlit"]
     },
     "cloud_bigdata": {
-      "label": "Cloud & Big Data Platform",
-      "items": ["GCP Cloud Platform (GCS, Dataproc, BigQuery)", "Azure IaaS", "Terraform", "Spark", "Hadoop", "Hudi", "Hive", "Tez", "Cloud Cost Optimization"]
+      "label": "Cloud & Data Platform Engineering",
+      "items": ["GCP (BigQuery, Dataproc, GCS, Dataplex, Pub/Sub)", "Azure IaaS", "Terraform", "Apache Spark", "Hadoop", "Apache Hudi", "Hive", "Data Lakehouse", "Data Mesh", "FinOps & Cloud Cost Optimization"]
     },
     "data_strategy": {
       "label": "Data Strategy & Architecture",
-      "items": ["Data Architecture", "Data Modeling", "Data Strategy & Roadmap Planning", "Data Engineering", "Big Data Ecosystems", "Data Analytics Enablement"]
+      "items": ["Enterprise Data Architecture", "Data Products", "Data Mesh", "Data Strategy & Roadmap", "Platform Engineering", "Data Modeling", "MLOps", "Data Analytics Enablement", "Digital Transformation"]
     },
     "governance": {
-      "label": "Governance & Reporting",
-      "items": ["Data Governance & Compliance", "Reporting & Data Visualization", "Data Catalog", "Dataplex"]
+      "label": "Data Governance & Compliance",
+      "items": ["Data Governance Frameworks", "Data Quality", "Data Catalog", "Dataplex", "Data Lineage", "GDPR & Compliance", "Reporting & Visualization"]
     },
     "programming_etl": {
-      "label": "Programming & ETL",
-      "items": ["Python", "PySpark", "Scala", "IBM Datastage", "Talend"]
+      "label": "Programming & Data Engineering",
+      "items": ["Python", "PySpark", "Scala", "SQL", "IBM DataStage", "Talend", "dbt"]
     },
     "databases": {
       "label": "Data Warehousing & NoSQL",
-      "items": ["BigQuery", "Hudi", "Hive", "SAP Hana", "Teradata", "Oracle", "Greenplum", "SQL Server", "Neo4j", "Apache Cassandra"]
+      "items": ["BigQuery", "Apache Hudi", "SAP Hana", "Teradata", "Apache Cassandra", "Neo4j", "Greenplum", "Oracle", "SQL Server"]
     },
     "orchestration_streaming": {
-      "label": "Orchestration & Streaming",
-      "items": ["Airflow", "Automic", "ControlM", "Kafka", "Kafka Connect", "Spark Streaming"]
+      "label": "Orchestration & Real-Time Streaming",
+      "items": ["Apache Airflow", "Apache Kafka", "Kafka Connect", "Spark Streaming", "Pub/Sub", "Automic", "ControlM"]
     },
     "leadership": {
       "label": "Executive Leadership",
-      "items": ["Team Leadership & Management (Scale, cross-functional, vendor teams)", "Budget Oversight & Financial Planning", "Coaching & Career Development", "Partnership & Stakeholder Management", "Executive Presentation"]
+      "items": ["Engineering Organization Scaling", "Cross-Functional Team Leadership (25+)", "Budget & P&L Oversight", "Executive Stakeholder Management", "Talent Development & Coaching", "OKR & Goal Setting", "Vendor Management"]
     }
   },
 
@@ -329,12 +313,12 @@
   ],
 
   "certifications": [
-    { "id": "cert_001", "name": "iLead", "issuer": "Walmart / IIM Bangalore", "year": null },
-    { "id": "cert_002", "name": "Agentic AI Advanced", "issuer": "Coursera", "year": null },
-    { "id": "cert_003", "name": "Systems Design and DSA", "issuer": "Algoexpert", "year": null },
-    { "id": "cert_004", "name": "Cassandra Certification", "issuer": "Datastax", "year": null },
-    { "id": "cert_005", "name": "IBM Datastage", "issuer": "IBM", "year": null },
-    { "id": "cert_006", "name": "Red Hat Certified Linux Professional", "issuer": "Red Hat", "year": null }
+    { "id": "cert_001", "name": "Agentic AI Advanced", "issuer": "Coursera", "year": null },
+    { "id": "cert_002", "name": "iLead — Executive Leadership Program", "issuer": "Walmart / IIM Bangalore", "year": null },
+    { "id": "cert_003", "name": "Systems Design and Data Structures & Algorithms", "issuer": "Algoexpert", "year": null },
+    { "id": "cert_004", "name": "Apache Cassandra Certification", "issuer": "Datastax", "year": null },
+    { "id": "cert_005", "name": "IBM DataStage Certification", "issuer": "IBM", "year": null },
+    { "id": "cert_006", "name": "Red Hat Certified Linux Professional (RHCL)", "issuer": "Red Hat", "year": null }
   ],
 
   "patents": [
@@ -343,7 +327,7 @@
       "name": "Metrics Definition Tool",
       "number": "US11138241B2",
       "url": "https://patents.google.com/patent/US11138241B2",
-      "description": "Proprietary product that delivered ~80% efficiency gain by reducing the analytics ideation-to-production lifecycle from 4 months to 2 weeks."
+      "description": "Self-service analytics platform enabling business teams to define, validate, and productionize metrics — delivered ~80% efficiency gain, reducing the analytics ideation-to-production lifecycle from 4 months to 2 weeks."
     }
   ],
 

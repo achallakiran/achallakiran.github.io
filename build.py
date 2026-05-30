@@ -12,8 +12,8 @@ DIR = Path(__file__).parent
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
-def load():
-    return json.loads((DIR / 'resume.json').read_text())
+def load(filename='resume.json'):
+    return json.loads((DIR / filename).read_text())
 
 def e(s):
     return _html.escape(str(s)) if s is not None else ''
@@ -802,7 +802,8 @@ def render_index(d, sarvam_key):
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
-    d = load()
+    src_file = 'resume.json'
+    out_file = 'index.html'
 
     sarvam_key = get_existing_key()
     args = sys.argv[1:]
@@ -811,7 +812,16 @@ if __name__ == '__main__':
             sarvam_key = arg.split('=', 1)[1]
         elif arg == '--key' and i + 1 < len(args):
             sarvam_key = args[i + 1]
+        elif arg.startswith('--file='):
+            src_file = arg.split('=', 1)[1]
+        elif arg == '--file' and i + 1 < len(args):
+            src_file = args[i + 1]
+        elif arg.startswith('--out='):
+            out_file = arg.split('=', 1)[1]
+        elif arg == '--out' and i + 1 < len(args):
+            out_file = args[i + 1]
 
-    (DIR / 'index.html').write_text(render_index(d, sarvam_key))
-    print('✅  index.html — single-column resume + chat widget (prints clean to PDF)')
+    d = load(src_file)
+    (DIR / out_file).write_text(render_index(d, sarvam_key))
+    print(f'✅  {out_file} — single-column resume + chat widget (prints clean to PDF)')
     print(f"🔑  Sarvam key — {'preserved from existing file' if sarvam_key != 'YOUR_SARVAM_API_KEY_HERE' else 'PLACEHOLDER — update manually'}")
