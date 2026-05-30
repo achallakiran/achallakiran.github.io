@@ -678,8 +678,11 @@ async function callSarvam(msg) {
   if (!r.ok) throw new Error(`${r.status}`);
   const data = await r.json();
   const raw = data.choices[0].message.content;
-  const match = raw.match(/\[ANSWER\]([\s\S]*?)\[\/ANSWER\]/i);
-  const reply = match ? match[1].trim() : raw.split(/\[ANSWER\]/i).pop().trim() || raw.trim();
+  const idx = raw.search(/\[ANSWER\]/i);
+  const reply = (idx !== -1
+    ? raw.slice(idx + '[ANSWER]'.length)
+    : raw
+  ).replace(/\[\/ANSWER\]/gi, '').trim();
   history.push({ role: 'assistant', content: reply });
   return reply;
 }
