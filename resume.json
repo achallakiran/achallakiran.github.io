@@ -47,7 +47,7 @@
       "Specializes in Data Products, Agentic AI, and Generative AI",
       "Leads cross-functional teams up to 25 members",
       "Coaches talent and establishes Data Governance and Architecture across complex enterprise environments",
-      "Thought leader: >30% reduction in manual effort via GenAI and Agentic AI",
+      "Thought leader: >40% reduction in manual effort via end-to-end Agentic AI pipelines using Claude Code, Microsoft Copilot Studio, and Google ADK",
       "Productionized 10+ AI Experiences"
     ]
   },
@@ -84,11 +84,11 @@
           "tags": ["architecture", "gcp", "data-lake", "governance"]
         },
         {
-          "description": "Automated Data Engineering and support capabilities using Agentic AI and GenAI.",
-          "impact": ">30% reduction in manual effort",
-          "impact_value": 30,
+          "description": "Built end-to-end Agentic AI pipelines for Data Engineering automation using Claude Code, Microsoft Copilot Studio, and Google ADK — covering data ingestion, quality checks, pipeline generation, and support automation.",
+          "impact": ">40% reduction in manual effort",
+          "impact_value": 40,
           "impact_unit": "percent_reduction",
-          "tags": ["agentic-ai", "genai", "automation"]
+          "tags": ["agentic-ai", "genai", "automation", "claude-code", "copilot-studio", "google-adk"]
         },
         {
           "description": "Directed the creation of a Data Analytics solution for Global Supplier KPIs, resulting in high supplier satisfaction and enabling data monetization.",
@@ -281,7 +281,7 @@
   "skills": {
     "genai_agentic": {
       "label": "GenAI & Agentic AI",
-      "items": ["LLM", "RAG", "Google ADK (Agent Development Kit)", "GPT", "Gemini", "FastAPI", "Streamlit"]
+      "items": ["LLM", "RAG", "Claude Code", "Microsoft Copilot Studio", "Google ADK", "GPT", "Gemini", "FastAPI", "Streamlit"]
     },
     "cloud_bigdata": {
       "label": "Cloud & Big Data Platform",
