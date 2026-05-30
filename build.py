@@ -529,10 +529,12 @@ def chat_widget_html(d, sarvam_key):
     )
 
     system_prompt = (
-        f'You are an AI assistant representing {p["name"]["full"]}, '
-        f'a {cr["title"]} with {d["summary"]["years_experience"]} years of experience '
-        f'in Data Engineering, Big Data, and Cloud Analytics at {cr["company"]}.\n\n'
-        f'Answer questions about {p["name"]["first"]} based on this:\n\n'
+        f'You are {p["name"]["full"]}. '
+        f'Speak entirely in first person as yourself — use "I", "my", "me". '
+        f'Never refer to yourself in third person. Never say "{p["name"]["first"]} Kiran" or "{p["name"]["full"]}". '
+        f'Never narrate your reasoning or thinking steps — answer directly and concisely. '
+        f'Be warm, confident, and professional.\n\n'
+        f'Here is your background:\n\n'
         f'CURRENT ROLE: {cr["title"]}, {cr["department"]} at {cr["company"]} ({current["period"]["display"]})\n'
         f'{current_bullets}\n\n'
         f'PREVIOUS ROLES:\n{prev_roles}\n\n'
@@ -541,8 +543,8 @@ def chat_widget_html(d, sarvam_key):
         f'PATENT: {pat["name"]} ({pat["number"]}) — {pat["description"]}\n\n'
         f'AWARDS: {all_awards}\n\n'
         f'CERTIFICATIONS: {all_certs}\n\n'
-        f'Keep answers concise and professional. If asked something not covered, '
-        f'suggest contacting {p["name"]["first"]} at {p["email"]}.'
+        f'If asked something not in your background, say you\'d be happy to discuss it directly '
+        f'and share your email: {p["email"]}. Keep all answers under 5 sentences unless more detail is asked for.'
     )
 
     return f"""<!-- ═══ FLOATING CHAT WIDGET ═══ -->
@@ -606,10 +608,6 @@ const CONFIG = {{
 
 const fab    = document.getElementById('chatFab');
 const widget = document.getElementById('chatWidget');
-fab.addEventListener('click', () => {{
-  widget.classList.toggle('open');
-  if (widget.classList.contains('open')) document.getElementById('widgetInput').focus();
-}});
 document.getElementById('chatClose').addEventListener('click', () => widget.classList.remove('open'));
 
 document.querySelectorAll('.suggestion-btn').forEach(btn => {{
@@ -628,8 +626,31 @@ input.addEventListener('keydown', ev => {{
   if (ev.key === 'Enter' && !ev.shiftKey) {{ ev.preventDefault(); sendMessage(input.value); }}
 }});
 
+// Pose photos — swap based on chat state
+const POSES = {{
+  default: 'profile.jpg',
+  greet:   'hi.png',
+  think:   'think.png',
+  answer:  'answer.png',
+  unsure:  'notsure.png'
+}};
+
+function setHeaderPose(pose) {{
+  const img = document.querySelector('.widget-avatar img');
+  if (img) img.src = POSES[pose] || POSES.default;
+}}
+
 const history = [];
 let loading = false;
+
+// Show greeting pose when widget opens
+fab.addEventListener('click', () => {{
+  widget.classList.toggle('open');
+  if (widget.classList.contains('open')) {{
+    document.getElementById('widgetInput').focus();
+    setHeaderPose('greet');
+  }}
+}});
 
 function scrollBottom() {{
   const m = document.getElementById('widgetMessages');
@@ -646,13 +667,26 @@ function fmt(text) {{
     .join('');
 }}
 
+function poseForReply(text) {{
+  const lower = text.toLowerCase();
+  if (lower.includes("don't have") || lower.includes("not sure") ||
+      lower.includes("not covered") || lower.includes("⚠️"))
+    return 'unsure';
+  return 'answer';
+}}
+
 function appendMsg(role, text) {{
   const welcome = document.getElementById('widgetWelcome');
   if (welcome) welcome.remove();
   const wrap   = document.createElement('div'); wrap.className = `wmsg ${{role}}`;
   const avatar = document.createElement('div'); avatar.className = 'wmsg-avatar';
-  if (role === 'bot') avatar.innerHTML = '<img src="{e(p["photo"])}" onerror="this.style.display=\\'none\\'">';
-  else avatar.textContent = '👤';
+  if (role === 'bot') {{
+    const pose = poseForReply(text);
+    avatar.innerHTML = `<img src="${{POSES[pose]}}" onerror="this.src='${{POSES.default}}'">`;
+    setHeaderPose(pose);
+  }} else {{
+    avatar.textContent = '👤';
+  }}
   const bubble = document.createElement('div'); bubble.className = 'wmsg-bubble';
   if (role === 'bot') bubble.innerHTML = fmt(text); else bubble.textContent = text;
   wrap.appendChild(avatar); wrap.appendChild(bubble);
@@ -661,9 +695,10 @@ function appendMsg(role, text) {{
 }}
 
 function showTyping() {{
+  setHeaderPose('think');
   const wrap = document.createElement('div'); wrap.className = 'wmsg bot'; wrap.id = 'typingWrap';
   const av   = document.createElement('div'); av.className = 'wmsg-avatar';
-  av.innerHTML = '<img src="{e(p["photo"])}" onerror="this.style.display=\\'none\\'">';
+  av.innerHTML = `<img src="${{POSES.think}}" onerror="this.src='${{POSES.default}}'">`;
   const dots = document.createElement('div'); dots.className = 'typing-dots';
   dots.innerHTML = '<span></span><span></span><span></span>';
   wrap.appendChild(av); wrap.appendChild(dots);
@@ -675,7 +710,7 @@ function hideTyping() {{ const el = document.getElementById('typingWrap'); if (e
 
 async function callSarvam(msg) {{
   if (!CONFIG.SARVAM_API_KEY || CONFIG.SARVAM_API_KEY.startsWith('YOUR_'))
-    return '⚠️ API key not configured. Update SARVAM_API_KEY in index.html.';
+    return "⚠️ API key not configured.";
   history.push({{ role: 'user', content: msg }});
   const r = await fetch(CONFIG.SARVAM_API_URL, {{
     method: 'POST',
@@ -705,6 +740,7 @@ async function sendMessage(text) {{
     hideTyping(); appendMsg('bot', reply);
   }} catch(err) {{
     hideTyping(); appendMsg('bot', '⚠️ Something went wrong. Please try again.');
+    setHeaderPose('unsure');
   }} finally {{
     loading = false; document.getElementById('widgetSend').disabled = false;
   }}
