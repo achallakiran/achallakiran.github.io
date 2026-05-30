@@ -9,405 +9,348 @@
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
   <style>
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --dark:      #1a1a2e;
-      --mid:       #2d3561;
-      --accent:    #c84b31;
-      --white:     #ffffff;
-      --light:     #f7f7f7;
-      --text:      #1e1e1e;
-      --text2:     #444444;
-      --text3:     #888888;
-      --border:    #dddddd;
-      --sidebar-w: 235px;
-      --font-head: 'Merriweather', serif;
-      --font-body: 'Lato', sans-serif;
-    }
+  :root {
+    --dark:      #1a1a2e;
+    --mid:       #2d3561;
+    --accent:    #c84b31;
+    --white:     #ffffff;
+    --light:     #f7f7f7;
+    --text:      #1a1a1a;
+    --text2:     #444444;
+    --text3:     #777777;
+    --border:    #dedede;
+    --font-head: 'Merriweather', serif;
+    --font-body: 'Lato', sans-serif;
+  }
 
-    body {
-      font-family: var(--font-body);
-      font-size: 12px;
-      color: var(--text);
-      background: #d8d8d8;
-      line-height: 1.5;
-    }
+  body {
+    font-family: var(--font-body);
+    color: var(--text);
+    background: #cccccc;
+    line-height: 1.5;
+  }
 
-    /* Page wrapper — A4, two-column grid */
-    .page {
-      width: 210mm;
-      min-height: 297mm;
-      background: var(--white);
-      margin: 24px auto;
-      box-shadow: 0 4px 32px rgba(0,0,0,0.22);
-      display: grid;
-      grid-template-columns: var(--sidebar-w) 1fr;
-    }
+  /* ── Print / action bar (hidden when printing) ── */
+  .print-bar {
+    width: 210mm; margin: 0 auto;
+    padding: 14px 0 8px;
+    display: flex; justify-content: flex-end; gap: 10px;
+  }
+  .print-btn {
+    background: var(--dark); color: var(--white);
+    border: none; padding: 8px 20px; border-radius: 6px;
+    font-family: var(--font-body); font-size: 12px;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .print-btn:hover { background: var(--mid); }
 
-    /* ── SIDEBAR ────────────────────────────── */
-    .sidebar {
-      background: var(--white);
-      border-right: 1px solid var(--border);
-      padding: 22px 14px;
-      display: flex;
-      flex-direction: column;
-    }
+  /* ── A4 page shell ── */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: var(--white);
+    margin: 0 auto 32px;
+    box-shadow: 0 6px 40px rgba(0,0,0,0.25);
+  }
 
-    /* Profile block */
-    .sidebar-profile {
-      text-align: center;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 12px;
-    }
+  /* ── HEADER ── */
+  .resume-header {
+    background: var(--white);
+    padding: 28px 40px 22px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-bottom: 2.5px solid var(--dark);
+  }
 
-    .sidebar-photo-wrap {
-      width: 110px; height: 110px;
-      border-radius: 6px;
-      overflow: hidden;
-      margin: 0 auto 10px;
-      border: 1.5px solid var(--border);
-      background: var(--light);
-    }
+  .header-photo {
+    width: 88px; height: 88px;
+    border-radius: 6px;
+    object-fit: cover; object-position: center top;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0; display: block;
+  }
 
-    .sidebar-photo {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center top;
-      display: block;
-    }
+  .header-info { flex: 1; }
 
-    .photo-fallback {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 30px; font-weight: 700; color: var(--mid);
-    }
+  .header-name {
+    font-family: var(--font-head);
+    font-size: 22pt; font-weight: 700;
+    color: var(--dark);
+    letter-spacing: 0.01em; margin-bottom: 4px;
+    line-height: 1.2;
+  }
 
-    .sidebar-name {
-      font-family: var(--font-head);
-      font-size: 13.5px; font-weight: 700;
-      color: var(--dark); margin-bottom: 3px;
-      line-height: 1.3;
-    }
+  .header-title {
+    font-size: 10pt; color: var(--text2);
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
 
-    .sidebar-role {
-      font-size: 10px; color: var(--text3);
-      line-height: 1.4;
-    }
+  .header-contacts {
+    font-size: 10pt; color: var(--text2);
+    line-height: 1.6;
+  }
 
-    /* Section containers */
-    .sidebar-section {
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .sidebar-section:last-child { border-bottom: none; }
+  .header-contacts a {
+    color: var(--text2); text-decoration: none;
+  }
+  .header-contacts a:hover { color: var(--dark); text-decoration: underline; }
 
-    .s-title {
-      font-size: 8.5px; font-weight: 900;
-      letter-spacing: 0.13em; text-transform: uppercase;
-      color: var(--text3); margin-bottom: 7px;
-    }
+  /* ── BODY ── */
+  .resume-body { padding: 0 40px 28px; }
 
-    /* General info rows */
-    .info-row {
-      display: flex; gap: 5px;
-      margin-bottom: 4px; align-items: flex-start;
-    }
+  .section { padding: 15px 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; padding-bottom: 0; }
 
-    .info-lbl {
-      font-size: 8.5px; font-weight: 700;
-      color: var(--text3); text-transform: uppercase;
-      letter-spacing: 0.05em; flex-shrink: 0;
-      width: 50px; padding-top: 1px;
-    }
+  .section-title {
+    font-size: 8pt; font-weight: 900;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--dark);
+    border-bottom: 1.5px solid var(--dark);
+    padding-bottom: 3px; margin-bottom: 11px;
+  }
 
-    .info-val {
-      font-size: 10px; color: var(--text);
-      line-height: 1.4; word-break: break-word;
-    }
+  /* ── SUMMARY ── */
+  .summary-list { padding-left: 16px; }
+  .summary-list li {
+    font-size: 11pt; color: var(--text);
+    margin-bottom: 4px; line-height: 1.6;
+  }
+  .summary-list li strong { font-weight: 700; }
 
-    a.link { color: var(--mid); text-decoration: none; }
-    a.link:hover { color: var(--accent); text-decoration: underline; }
+  /* ── SKILLS ── */
+  .skill-row {
+    display: flex; gap: 12px;
+    margin-bottom: 5px; line-height: 1.5;
+  }
+  .skill-cat {
+    font-size: 10pt; font-weight: 700;
+    color: var(--dark); min-width: 190px; flex-shrink: 0;
+  }
+  .skill-items { font-size: 10pt; color: var(--text2); }
 
-    /* Simple bullet list */
-    .bullet-list { font-size: 10.5px; color: var(--text); line-height: 1.7; }
-    .bullet-list li { list-style: disc; margin-left: 12px; margin-bottom: 2px; }
+  /* ── EXPERIENCE ── */
+  .exp-block { margin-bottom: 15px; }
+  .exp-block:last-child { margin-bottom: 0; }
 
-    /* Skills */
-    .skill-group { margin-bottom: 8px; }
-    .skill-group:last-child { margin-bottom: 0; }
+  .exp-top {
+    display: flex; justify-content: space-between;
+    align-items: baseline; gap: 8px;
+  }
+  .exp-role {
+    font-size: 12pt; font-weight: 700; color: var(--dark);
+    line-height: 1.3;
+  }
+  .exp-dates {
+    font-size: 10pt; color: var(--text3);
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .exp-company {
+    font-size: 10.5pt; font-weight: 700;
+    color: var(--dark); margin: 2px 0 6px;
+  }
+  .exp-list { padding-left: 16px; }
+  .exp-list li {
+    font-size: 10.5pt; color: var(--text2);
+    margin-bottom: 3px; line-height: 1.55;
+  }
+  .exp-list li strong { color: var(--text); font-weight: 700; }
 
-    .skill-lbl {
-      font-size: 8.5px; font-weight: 700;
-      color: var(--mid); text-transform: uppercase;
-      letter-spacing: 0.07em; margin-bottom: 4px;
-    }
+  .exp-divider {
+    border: none; border-top: 1px dashed var(--border);
+    margin: 12px 0;
+  }
 
-    .skill-list { display: flex; flex-wrap: wrap; gap: 3px; }
+  .earlier-label {
+    font-size: 11pt; font-weight: 700;
+    color: var(--dark); margin-bottom: 6px;
+  }
 
-    .skill-pill {
-      background: var(--light); color: var(--text2);
-      border: 1px solid var(--border);
-      font-size: 8px; padding: 2px 5px;
-      border-radius: 3px; line-height: 1.5;
-    }
+  /* ── BOTTOM (edu / certs / patent / awards) ── */
+  .bottom-item { margin-bottom: 6px; font-size: 10.5pt; line-height: 1.55; }
+  .bottom-item-title { font-weight: 700; color: var(--dark); }
+  .bottom-item-sub { color: var(--text); font-size: 10pt; }
 
-    /* Patent */
-    .patent-name { font-size: 10.5px; font-weight: 700; color: var(--dark); }
-    .patent-num  { font-size: 9px; color: var(--accent); margin: 2px 0; }
-    .patent-desc { font-size: 9.5px; color: var(--text2); line-height: 1.4; }
+  .cert-row { font-size: 10.5pt; margin-bottom: 3px; color: var(--text); }
+  .cert-row span { color: var(--text2); }
 
-    /* Education */
-    .edu-degree { font-size: 10.5px; font-weight: 700; color: var(--dark); }
-    .edu-meta   { font-size: 9.5px; color: var(--text3); margin-top: 1px; }
+  .award-row { font-size: 10.5pt; margin-bottom: 3px; color: var(--text); }
+  .award-row span { color: var(--text2); }
 
-    /* Certifications */
-    .cert-item {
-      font-size: 10px; color: var(--text);
-      padding: 3px 0; border-bottom: 1px solid #eee;
-      line-height: 1.5;
-    }
-    .cert-item:last-child { border-bottom: none; }
-    .cert-issuer { font-size: 9px; color: var(--text3); }
+  /* ── CHAT FAB — pill button ── */
+  .chat-fab {
+    position: fixed; bottom: 28px; right: 28px;
+    background: var(--dark); color: var(--white);
+    border: none; border-radius: 50px;
+    padding: 10px 20px 10px 8px;
+    display: flex; align-items: center; gap: 10px;
+    cursor: pointer; z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    font-family: var(--font-body);
+    transition: all 0.2s;
+  }
+  .chat-fab:hover { background: var(--mid); transform: translateY(-2px); }
 
-    /* Awards */
-    .award-item {
-      display: flex; align-items: flex-start;
-      gap: 5px; margin-bottom: 5px; font-size: 10px;
-    }
-    .award-dot {
-      width: 5px; height: 5px; border-radius: 50%;
-      background: var(--accent); flex-shrink: 0; margin-top: 4px;
-    }
-    .award-years { font-size: 9px; color: var(--text3); display: block; }
+  .fab-photo {
+    width: 36px; height: 36px; border-radius: 50%;
+    object-fit: cover; object-position: center top;
+    border: 2px solid var(--accent); flex-shrink: 0;
+  }
+  .fab-label { font-size: 13px; font-weight: 600; }
 
-    /* ── MAIN ────────────────────────────────── */
-    .main {
-      padding: 22px 24px;
-      display: flex; flex-direction: column; gap: 16px;
-    }
+  .fab-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #22c55e; position: absolute;
+    top: 8px; right: 8px;
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:.5; transform:scale(1.4); }
+  }
 
-    .m-title {
-      font-size: 11px; font-weight: 700;
-      color: var(--text); letter-spacing: 0.02em;
-      border-bottom: 1.5px solid var(--text);
-      padding-bottom: 3px; margin-bottom: 10px;
-    }
+  /* ── CHAT WIDGET ── */
+  .chat-widget {
+    position: fixed; bottom: 90px; right: 28px;
+    width: 370px; height: 520px;
+    background: var(--white); border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column;
+    z-index: 999; overflow: hidden;
+    transform: scale(0.92) translateY(14px);
+    opacity: 0; pointer-events: none;
+    transform-origin: bottom right;
+    transition: transform 0.22s ease, opacity 0.22s ease;
+  }
+  .chat-widget.open {
+    transform: scale(1) translateY(0);
+    opacity: 1; pointer-events: all;
+  }
 
-    /* Overview bullets */
-    .overview-list { padding-left: 16px; }
-    .overview-list li {
-      font-size: 11.5px; color: var(--text);
-      margin-bottom: 5px; line-height: 1.55;
-    }
-    .overview-list li strong { font-weight: 700; }
+  .widget-header {
+    background: var(--dark); color: var(--white);
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 10px;
+    flex-shrink: 0;
+  }
+  .widget-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 2px solid var(--accent); overflow: hidden;
+    background: var(--mid); flex-shrink: 0;
+  }
+  .widget-avatar img {
+    width:100%; height:100%;
+    object-fit:cover; object-position:center top; display:block;
+  }
+  .widget-name { font-weight: 700; font-size: 13px; }
+  .widget-sub  { font-size: 10px; opacity: 0.7; margin-top: 1px; }
+  .widget-close {
+    margin-left: auto; background: none; border: none;
+    color: rgba(255,255,255,0.7); font-size: 20px;
+    cursor: pointer; padding: 2px 6px; line-height:1;
+  }
+  .widget-close:hover { color: var(--white); }
 
-    /* Experience */
-    .exp-block { margin-bottom: 12px; }
-    .exp-block:last-child { margin-bottom: 0; }
+  .widget-messages {
+    flex:1; overflow-y:auto; padding:12px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .wmsg { display:flex; gap:8px; align-items:flex-start; }
+  .wmsg.user { flex-direction:row-reverse; }
 
-    .exp-heading {
-      font-size: 11.5px; font-weight: 700;
-      color: var(--dark); line-height: 1.4;
-      margin-bottom: 5px;
-    }
+  .wmsg-avatar {
+    width:28px; height:28px; border-radius:50%;
+    overflow:hidden; flex-shrink:0;
+    background:var(--light);
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px;
+  }
+  .wmsg-avatar img {
+    width:100%; height:100%;
+    object-fit:cover; object-position:center top; display:block;
+  }
+  .wmsg-bubble {
+    max-width:80%; padding:9px 12px; border-radius:14px;
+    font-size:12.5px; line-height:1.5;
+  }
+  .wmsg.bot  .wmsg-bubble { background:var(--light); color:var(--text); border-radius:4px 14px 14px 14px; }
+  .wmsg.user .wmsg-bubble { background:var(--dark); color:var(--white); border-radius:14px 4px 14px 14px; }
+  .wmsg-bubble p { margin-bottom:6px; }
+  .wmsg-bubble p:last-child { margin-bottom:0; }
+  .wmsg-bubble ul { padding-left:14px; margin:4px 0; }
+  .wmsg-bubble li { margin-bottom:2px; }
 
-    .exp-achievements { padding-left: 14px; }
-    .exp-achievements li {
-      font-size: 11px; color: var(--text2);
-      margin-bottom: 3px; line-height: 1.5;
-    }
-    .exp-achievements li strong { color: var(--text); font-weight: 700; }
+  .widget-suggestions {
+    display:flex; flex-wrap:wrap; gap:6px;
+    padding:6px 12px 8px;
+  }
+  .suggestion-btn {
+    background:none; border:1px solid var(--border);
+    border-radius:20px; padding:4px 10px;
+    font-size:11px; color:var(--text2);
+    cursor:pointer; font-family:var(--font-body);
+    transition:all 0.15s;
+  }
+  .suggestion-btn:hover { border-color:var(--dark); color:var(--dark); }
 
-    .earlier-label {
-      font-size: 10.5px; font-weight: 700;
-      color: var(--dark); margin-bottom: 5px;
-    }
+  .widget-input-area {
+    border-top:1px solid var(--border);
+    padding:10px 12px 12px; flex-shrink:0;
+  }
+  .widget-input-row {
+    display:flex; align-items:flex-end; gap:8px;
+    background:var(--light); border:1px solid var(--border);
+    border-radius:10px; padding:8px 10px;
+  }
+  .widget-input {
+    flex:1; background:transparent; border:none; outline:none;
+    color:var(--text); font-family:var(--font-body);
+    font-size:12.5px; line-height:1.5;
+    resize:none; max-height:80px; min-height:20px;
+  }
+  .widget-input::placeholder { color:var(--text3); }
 
-    .exp-divider {
-      border: none; border-top: 1px solid var(--border);
-      margin: 10px 0;
-    }
+  .widget-send {
+    width:30px; height:30px; border-radius:7px; border:none;
+    background:var(--dark); color:var(--white);
+    cursor:pointer; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.15s;
+  }
+  .widget-send:hover:not(:disabled) { background:var(--mid); transform:translateY(-1px); }
+  .widget-send:disabled { opacity:0.4; cursor:not-allowed; }
 
-    /* ── PRINT BAR ─────────────────────────── */
-    .print-bar {
-      width: 210mm; margin: 0 auto 8px;
-      display: flex; justify-content: flex-end; gap: 10px;
-    }
+  .widget-powered { text-align:center; font-size:10px; color:var(--text3); margin-top:7px; }
 
-    .print-btn {
-      background: var(--dark); color: var(--white);
-      border: none; padding: 8px 18px;
-      border-radius: 6px; font-family: var(--font-body);
-      font-size: 12px; cursor: pointer; transition: background 0.2s;
-    }
-    .print-btn:hover { background: var(--mid); }
+  .widget-welcome { text-align:center; padding:20px 10px 10px; }
+  .widget-welcome-title { font-weight:700; font-size:13px; color:var(--dark); margin-bottom:4px; }
+  .widget-welcome-sub { font-size:11px; color:var(--text3); line-height:1.5; }
 
-    @media print {
-      body { background: white; }
-      .print-bar, .chat-fab, .chat-widget { display: none !important; }
-      .page { margin: 0; box-shadow: none; width: 100%; }
-    }
-    @page { size: A4; margin: 0; }
+  .typing-dots {
+    display:flex; gap:4px; align-items:center;
+    padding:10px 14px; background:var(--light);
+    border-radius:4px 14px 14px 14px;
+  }
+  .typing-dots span {
+    width:6px; height:6px; border-radius:50%;
+    background:var(--text3); animation:blink 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay:0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay:0.4s; }
+  @keyframes blink { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
 
-
-    /* ── CHAT FAB (pill) ─────────────────────── */
-    .chat-fab {
-      position: fixed; bottom: 28px; right: 28px;
-      background: var(--dark); color: var(--white);
-      border: none; border-radius: 50px;
-      padding: 10px 18px 10px 8px;
-      display: flex; align-items: center; gap: 10px;
-      cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      z-index: 1000; transition: all 0.2s;
-      font-family: var(--font-body);
-    }
-    .chat-fab:hover { background: var(--mid); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
-
-    .fab-photo {
-      width: 36px; height: 36px; border-radius: 50%;
-      object-fit: cover; object-position: center top;
-      border: 2px solid var(--accent); flex-shrink: 0;
-    }
-
-    .fab-text { font-size: 13px; font-weight: 600; letter-spacing: 0.01em; }
-
-    .fab-badge {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: #22c55e; position: absolute; top: 8px; right: 8px;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.3); }
-    }
-
-    /* ── CHAT WIDGET ─────────────────────────── */
-    .chat-widget {
-      position: fixed; bottom: 90px; right: 28px;
-      width: 370px; height: 520px;
-      background: var(--white);
-      border-radius: 16px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
-      display: flex; flex-direction: column;
-      z-index: 999; overflow: hidden;
-      transform: scale(0.92) translateY(12px);
-      opacity: 0; pointer-events: none;
-      transform-origin: bottom right;
-      transition: transform 0.22s ease, opacity 0.22s ease;
-    }
-    .chat-widget.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
-
-    .widget-header {
-      background: var(--dark); color: var(--white);
-      padding: 14px 16px; display: flex; align-items: center; gap: 10px;
-      flex-shrink: 0;
-    }
-
-    .widget-avatar {
-      width: 40px; height: 40px; border-radius: 50%;
-      border: 2px solid var(--accent); overflow: hidden;
-      background: var(--mid); flex-shrink: 0;
-    }
-    .widget-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
-
-    .widget-name { font-weight: 700; font-size: 13px; }
-    .widget-sub  { font-size: 10px; opacity: 0.7; margin-top: 1px; }
-    .widget-close {
-      margin-left: auto; background: none; border: none;
-      color: rgba(255,255,255,0.7); font-size: 20px;
-      cursor: pointer; line-height: 1; padding: 2px 6px;
-    }
-    .widget-close:hover { color: var(--white); }
-
-    .widget-messages {
-      flex: 1; overflow-y: auto; padding: 12px;
-      display: flex; flex-direction: column; gap: 10px;
-    }
-
-    .wmsg { display: flex; gap: 8px; align-items: flex-start; }
-    .wmsg.user { flex-direction: row-reverse; }
-
-    .wmsg-avatar {
-      width: 28px; height: 28px; border-radius: 50%;
-      overflow: hidden; flex-shrink: 0;
-      background: var(--light); display: flex;
-      align-items: center; justify-content: center;
-      font-size: 14px;
-    }
-    .wmsg-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
-
-    .wmsg-bubble {
-      max-width: 80%; padding: 9px 12px;
-      border-radius: 14px; font-size: 12.5px; line-height: 1.5;
-    }
-    .wmsg.bot  .wmsg-bubble { background: var(--light); color: var(--text); border-radius: 4px 14px 14px 14px; }
-    .wmsg.user .wmsg-bubble { background: var(--dark); color: var(--white); border-radius: 14px 4px 14px 14px; }
-    .wmsg-bubble p { margin-bottom: 6px; }
-    .wmsg-bubble p:last-child { margin-bottom: 0; }
-    .wmsg-bubble ul { padding-left: 14px; margin: 4px 0; }
-    .wmsg-bubble li { margin-bottom: 2px; }
-
-    .widget-suggestions {
-      display: flex; flex-wrap: wrap; gap: 6px;
-      padding: 6px 12px 8px;
-    }
-    .suggestion-btn {
-      background: none; border: 1px solid var(--border);
-      border-radius: 20px; padding: 4px 10px;
-      font-size: 11px; color: var(--text2); cursor: pointer;
-      font-family: var(--font-body); transition: all 0.15s;
-    }
-    .suggestion-btn:hover { border-color: var(--dark); color: var(--dark); }
-
-    .widget-input-area {
-      border-top: 1px solid var(--border); padding: 10px 12px 12px;
-      flex-shrink: 0;
-    }
-
-    .widget-input-row {
-      display: flex; align-items: flex-end; gap: 8px;
-      background: var(--light); border: 1px solid var(--border);
-      border-radius: 10px; padding: 8px 10px;
-    }
-
-    .widget-input {
-      flex: 1; background: transparent; border: none; outline: none;
-      color: var(--text); font-family: var(--font-body);
-      font-size: 12.5px; line-height: 1.5;
-      resize: none; max-height: 80px; min-height: 20px;
-    }
-    .widget-input::placeholder { color: var(--text3); }
-
-    .widget-send {
-      width: 30px; height: 30px; border-radius: 7px; border: none;
-      background: var(--dark); color: var(--white);
-      cursor: pointer; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.15s;
-    }
-    .widget-send:hover:not(:disabled) { background: var(--mid); transform: translateY(-1px); }
-    .widget-send:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    .widget-powered { text-align: center; font-size: 10px; color: var(--text3); margin-top: 7px; }
-
-    .widget-welcome { text-align: center; padding: 20px 10px 10px; }
-    .widget-welcome-title { font-weight: 700; font-size: 13px; color: var(--dark); margin-bottom: 4px; }
-    .widget-welcome-sub { font-size: 11px; color: var(--text3); line-height: 1.5; }
-
-    .typing-dots {
-      display: flex; gap: 4px; align-items: center;
-      padding: 10px 14px; background: var(--light);
-      border-radius: 4px 14px 14px 14px;
-    }
-    .typing-dots span {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--text3); animation: blink 1.2s infinite;
-    }
-    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes blink { 0%,80%,100% { opacity: 0.2; } 40% { opacity: 1; } }
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; }
+    .print-bar, .chat-fab, .chat-widget { display: none !important; }
+    .page { box-shadow: none; margin: 0; width: 100%; }
+    .resume-body { padding: 0 32px 24px; }
+    .resume-header { padding: 22px 32px; }
+  }
+  @page { size: A4; margin: 0; }
 
   </style>
 </head>
@@ -419,87 +362,26 @@
 
 <div class="page">
 
-  <aside class="sidebar">
-
-    <div class="sidebar-profile">
-      <div class="sidebar-photo-wrap">
-        <img src="profile.jpg" alt="Ravi Kiran Achalla" class="sidebar-photo"
-             onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;photo-fallback&quot;>RK</div>'"/>
+  <header class="resume-header">
+    <img src="profile.jpg" class="header-photo" alt="Ravi Kiran Achalla"
+         onerror="this.style.display='none'"/>
+    <div class="header-info">
+      <div class="header-name">Ravi Kiran Achalla</div>
+      <div class="header-title">Senior Manager II &mdash; Data Engineering, Walmart</div>
+      <div class="header-contacts">
+        <a href="mailto:achallakiran@gmail.com">achallakiran@gmail.com</a> &nbsp;|&nbsp;
+        +91 8197921458 &nbsp;|&nbsp;
+        Bengaluru, India &nbsp;|&nbsp;
+        <a href="https://www.linkedin.com/in/ravikiran-achalla" target="_blank">linkedin.com/in/ravikiran-achalla</a> &nbsp;|&nbsp;
+        <a href="https://github.com/achallakiran" target="_blank">github.com/achallakiran</a>
       </div>
-      <div class="sidebar-name">Ravi Kiran Achalla</div>
-      <div class="sidebar-role">Senior Manager II, Walmart</div>
     </div>
+  </header>
 
-    <div class="sidebar-section">
-      <div class="s-title">General Information</div>
-      <div class="info-row"><span class="info-lbl">Email</span><a href="mailto:achallakiran@gmail.com" class="info-val link">achallakiran@gmail.com</a></div>
-      <div class="info-row"><span class="info-lbl">Phone</span><span class="info-val">+91 8197921458</span></div>
-      <div class="info-row"><span class="info-lbl">LinkedIn</span><a href="https://www.linkedin.com/in/ravikiran-achalla" target="_blank" class="info-val link">ravikiran-achalla</a></div>
-      <div class="info-row"><span class="info-lbl">GitHub</span><a href="https://github.com/achallakiran" target="_blank" class="info-val link">achallakiran</a></div>
-      <div class="info-row"><span class="info-lbl">City</span><span class="info-val">Bengaluru, India</span></div>
-      <div class="info-row"><span class="info-lbl">Address</span><span class="info-val">K1503, Tranquil, Brigade Utopia, Varthur, Bengaluru, Karnataka – 560087, India</span></div>
-      <div class="info-row"><span class="info-lbl">DOB</span><span class="info-val">1985-07-15</span></div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="s-title">Industry Experience</div>
-      <ul class="bullet-list"><li>Retail</li></ul>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="s-title">Current Role</div>
-      <ul class="bullet-list"><li>Senior Manager II, Data Engineering</li></ul>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="s-title">Skills</div>
-      <div class="skill-group"><div class="skill-lbl">GenAI &amp; Agentic AI</div><div class="skill-list"><span class="skill-pill">LLM</span><span class="skill-pill">RAG</span><span class="skill-pill">Claude Code</span><span class="skill-pill">Microsoft Copilot Studio</span><span class="skill-pill">Google ADK</span><span class="skill-pill">GPT</span><span class="skill-pill">Gemini</span><span class="skill-pill">FastAPI</span><span class="skill-pill">Streamlit</span></div></div>
-<div class="skill-group"><div class="skill-lbl">Cloud &amp; Big Data Platform</div><div class="skill-list"><span class="skill-pill">GCP Cloud Platform (GCS, Dataproc, BigQuery)</span><span class="skill-pill">Azure IaaS</span><span class="skill-pill">Terraform</span><span class="skill-pill">Spark</span><span class="skill-pill">Hadoop</span><span class="skill-pill">Hudi</span><span class="skill-pill">Hive</span><span class="skill-pill">Tez</span><span class="skill-pill">Cloud Cost Optimization</span></div></div>
-<div class="skill-group"><div class="skill-lbl">Data Strategy &amp; Architecture</div><div class="skill-list"><span class="skill-pill">Data Architecture</span><span class="skill-pill">Data Modeling</span><span class="skill-pill">Data Strategy &amp; Roadmap Planning</span><span class="skill-pill">Data Engineering</span><span class="skill-pill">Big Data Ecosystems</span><span class="skill-pill">Data Analytics Enablement</span></div></div>
-<div class="skill-group"><div class="skill-lbl">Governance &amp; Reporting</div><div class="skill-list"><span class="skill-pill">Data Governance &amp; Compliance</span><span class="skill-pill">Reporting &amp; Data Visualization</span><span class="skill-pill">Data Catalog</span><span class="skill-pill">Dataplex</span></div></div>
-<div class="skill-group"><div class="skill-lbl">Programming &amp; ETL</div><div class="skill-list"><span class="skill-pill">Python</span><span class="skill-pill">PySpark</span><span class="skill-pill">Scala</span><span class="skill-pill">IBM Datastage</span><span class="skill-pill">Talend</span></div></div>
-<div class="skill-group"><div class="skill-lbl">Data Warehousing &amp; NoSQL</div><div class="skill-list"><span class="skill-pill">BigQuery</span><span class="skill-pill">Hudi</span><span class="skill-pill">Hive</span><span class="skill-pill">SAP Hana</span><span class="skill-pill">Teradata</span><span class="skill-pill">Oracle</span><span class="skill-pill">Greenplum</span><span class="skill-pill">SQL Server</span><span class="skill-pill">Neo4j</span><span class="skill-pill">Apache Cassandra</span></div></div>
-<div class="skill-group"><div class="skill-lbl">Orchestration &amp; Streaming</div><div class="skill-list"><span class="skill-pill">Airflow</span><span class="skill-pill">Automic</span><span class="skill-pill">ControlM</span><span class="skill-pill">Kafka</span><span class="skill-pill">Kafka Connect</span><span class="skill-pill">Spark Streaming</span></div></div>
-<div class="skill-group"><div class="skill-lbl">Executive Leadership</div><div class="skill-list"><span class="skill-pill">Team Leadership &amp; Management (Scale, cross-functional, vendor teams)</span><span class="skill-pill">Budget Oversight &amp; Financial Planning</span><span class="skill-pill">Coaching &amp; Career Development</span><span class="skill-pill">Partnership &amp; Stakeholder Management</span><span class="skill-pill">Executive Presentation</span></div></div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="s-title">Patents</div>
-      <div class="patent-name"><a href="https://patents.google.com/patent/US11138241B2" target="_blank" class="link">Metrics Definition Tool</a></div>
-      <div class="patent-num">US11138241B2</div>
-      <div class="patent-desc">Proprietary product that delivered ~80% efficiency gain by reducing the analytics ideation-to-production lifecycle from 4 months to 2 weeks.</div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="s-title">Education</div>
-      <div class="edu-degree">B.Tech, CSE, KIITS, Bhubaneswar</div>
-      <div class="edu-meta">(8.5 CGPA), 2009</div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="s-title">Certifications</div>
-      <div class="cert-item">iLead<div class="cert-issuer">Walmart / IIM Bangalore</div></div>
-<div class="cert-item">Agentic AI Advanced<div class="cert-issuer">Coursera</div></div>
-<div class="cert-item">Systems Design and DSA<div class="cert-issuer">Algoexpert</div></div>
-<div class="cert-item">Cassandra Certification<div class="cert-issuer">Datastax</div></div>
-<div class="cert-item">IBM Datastage<div class="cert-issuer">IBM</div></div>
-<div class="cert-item">Red Hat Certified Linux Professional<div class="cert-issuer">Red Hat</div></div>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="s-title">Awards</div>
-      <div class="award-item"><div class="award-dot"></div><div>Excellence Award<span class="award-years">2024 · 2018 · 2011</span></div></div>
-<div class="award-item"><div class="award-dot"></div><div>Spark Hackathon Winner<span class="award-years">2022</span></div></div>
-<div class="award-item"><div class="award-dot"></div><div>Inspiring Innovation Award<span class="award-years">2021</span></div></div>
-    </div>
-
-  </aside>
-
-  <main class="main">
-
-    <section>
-      <div class="m-title">Overview</div>
-      <ul class="overview-list">
+  <div class="resume-body">
+    <div class="section">
+      <div class="section-title">Professional Summary</div>
+      <ul class="summary-list">
       <li>15 years of progressive experience architecting and leading high-scale Data Engineering, Big Data, and Cloud Analytics initiatives</li>
       <li>Proven expertise in translating business strategy into scalable data platforms</li>
       <li>Cloud cost optimization up to $5M annually</li>
@@ -509,77 +391,122 @@
       <li>Thought leader: &gt;40% reduction in manual effort via end-to-end Agentic AI pipelines using Claude Code, Microsoft Copilot Studio, and Google ADK</li>
       <li>Productionized 10+ AI Experiences</li>
       </ul>
-    </section>
-
-    <section>
-      <div class="m-title">Professional Experience</div>
-
+    </div>
+    <div class="section">
+      <div class="section-title">Core Skills</div>
+      <div class="skill-row"><span class="skill-cat">GenAI &amp; Agentic AI</span><span class="skill-items">LLM, RAG, Claude Code, Microsoft Copilot Studio, Google ADK, GPT, Gemini, FastAPI, Streamlit</span></div>
+      <div class="skill-row"><span class="skill-cat">Cloud &amp; Big Data Platform</span><span class="skill-items">GCP Cloud Platform (GCS, Dataproc, BigQuery), Azure IaaS, Terraform, Spark, Hadoop, Hudi, Hive, Tez, Cloud Cost Optimization</span></div>
+      <div class="skill-row"><span class="skill-cat">Data Strategy &amp; Architecture</span><span class="skill-items">Data Architecture, Data Modeling, Data Strategy &amp; Roadmap Planning, Data Engineering, Big Data Ecosystems, Data Analytics Enablement</span></div>
+      <div class="skill-row"><span class="skill-cat">Governance &amp; Reporting</span><span class="skill-items">Data Governance &amp; Compliance, Reporting &amp; Data Visualization, Data Catalog, Dataplex</span></div>
+      <div class="skill-row"><span class="skill-cat">Programming &amp; ETL</span><span class="skill-items">Python, PySpark, Scala, IBM Datastage, Talend</span></div>
+      <div class="skill-row"><span class="skill-cat">Data Warehousing &amp; NoSQL</span><span class="skill-items">BigQuery, Hudi, Hive, SAP Hana, Teradata, Oracle, Greenplum, SQL Server, Neo4j, Apache Cassandra</span></div>
+      <div class="skill-row"><span class="skill-cat">Orchestration &amp; Streaming</span><span class="skill-items">Airflow, Automic, ControlM, Kafka, Kafka Connect, Spark Streaming</span></div>
+      <div class="skill-row"><span class="skill-cat">Executive Leadership</span><span class="skill-items">Team Leadership &amp; Management (Scale, cross-functional, vendor teams), Budget Oversight &amp; Financial Planning, Coaching &amp; Career Development, Partnership &amp; Stakeholder Management, Executive Presentation</span></div>
+    </div>
+    <div class="section">
+      <div class="section-title">Professional Experience</div>
       <div class="exp-block">
-        <div class="exp-heading"><strong>Senior Manager II – Data Engineering, Walmart</strong> (Nov 2023 – Present)</div>
-        <ul class="exp-achievements">
+        <div class="exp-top">
+          <span class="exp-role">Senior Manager II, Data Engineering</span>
+          <span class="exp-dates">Nov 2023 – Present</span>
+        </div>
+        <div class="exp-company">Walmart &nbsp;&middot;&nbsp; Bengaluru, India</div>
+        <ul class="exp-list">
           <li>Leading a team of 18 Data Engineers for driving the Single Data Platform Acceleration initiative, to provide a unified customer experience across Walmart&#x27;s International markets.</li>
-          <li>Driving the development and adoption of the Multi-Tenant eCommerce 360 Data Product, providing a consolidated customer journey view. — <strong>$20M positive impact on product cost margin with adoption rate &gt;60%</strong></li>
-          <li>Architected and governed the Unified Data Analytics solution across Walmart&#x27;s tenants, defining architecture, compliance, security, and access policies for a Peta-Scale GCP-based Data Lake serving over 800+ internal users. — <strong>800+ internal users served</strong></li>
-          <li>Built end-to-end Agentic AI pipelines for Data Engineering automation using Claude Code, Microsoft Copilot Studio, and Google ADK — covering data ingestion, quality checks, pipeline generation, and support automation. — <strong>&gt;40% reduction in manual effort</strong></li>
-          <li>Directed the creation of a Data Analytics solution for Global Supplier KPIs, resulting in high supplier satisfaction and enabling data monetization. — <strong>$15M in revenue generation</strong></li>
-          <li>Defined and implemented a 3-year data strategy roadmap focused on platformisation, data silos elimination and GenAI integration. — <strong>Estimated 20% efficiency gains across International markets — Canada and Mexico</strong></li>
-          <li>Spearheaded Cloud Cost Optimization initiatives, transformed FinOps practices. — <strong>$5M in annual cloud cost savings — reduced $25M annual cloud budget by 20%</strong></li>
+          <li>Driving the development and adoption of the Multi-Tenant eCommerce 360 Data Product, providing a consolidated customer journey view. &mdash; <strong>$20M positive impact on product cost margin with adoption rate &gt;60%</strong></li>
+          <li>Architected and governed the Unified Data Analytics solution across Walmart&#x27;s tenants, defining architecture, compliance, security, and access policies for a Peta-Scale GCP-based Data Lake serving over 800+ internal users. &mdash; <strong>800+ internal users served</strong></li>
+          <li>Built end-to-end Agentic AI pipelines for Data Engineering automation using Claude Code, Microsoft Copilot Studio, and Google ADK — covering data ingestion, quality checks, pipeline generation, and support automation. &mdash; <strong>&gt;40% reduction in manual effort</strong></li>
+          <li>Directed the creation of a Data Analytics solution for Global Supplier KPIs, resulting in high supplier satisfaction and enabling data monetization. &mdash; <strong>$15M in revenue generation</strong></li>
+          <li>Defined and implemented a 3-year data strategy roadmap focused on platformisation, data silos elimination and GenAI integration. &mdash; <strong>Estimated 20% efficiency gains across International markets — Canada and Mexico</strong></li>
+          <li>Spearheaded Cloud Cost Optimization initiatives, transformed FinOps practices. &mdash; <strong>$5M in annual cloud cost savings — reduced $25M annual cloud budget by 20%</strong></li>
         </ul>
       </div>
-
       <hr class="exp-divider"/>
-
       <div class="exp-block">
-        <div class="exp-heading"><strong>Staff Data Engineer &amp; Senior Manager I – Data Engineering, Walmart</strong> (Jun 2021 – Oct 2023)</div>
-        <ul class="exp-achievements">
-          <li>Led the migration of the Data Lake platform from on-premises Hadoop cluster to a modernized GCP-based data platform, developing an automated approach for 3000+ pipeline conversion and Airflow workflows. — <strong>3000+ pipelines migrated</strong></li>
-          <li>Initiated and managed the team enhancing the eCommerce Fraud Detection application (Custom ML solution). — <strong>Prevents $100M worth of fraudulent transactions per year across International markets</strong></li>
-          <li>Directed the development of the Adjustment Management Tool using GCP, Kafka, and Spark Streaming, ensuring accurate real-time inventory. — <strong>Maintaining OSA &gt; 95% across Walmart International stores</strong></li>
-          <li>Championed GCP Cloud Cost savings project across Data Analytics. — <strong>&gt;$2M cloud cost savings</strong></li>
-          <li>Developed Automated Data Pipeline generator. — <strong>&gt;40% productivity improvement</strong></li>
+        <div class="exp-top">
+          <span class="exp-role">Staff Data Engineer &amp; Senior Manager I, Data Engineering</span>
+          <span class="exp-dates">Jun 2021 – Oct 2023</span>
+        </div>
+        <div class="exp-company">Walmart &nbsp;&middot;&nbsp; Bengaluru, India</div>
+        <ul class="exp-list">
+          <li>Led the migration of the Data Lake platform from on-premises Hadoop cluster to a modernized GCP-based data platform, developing an automated approach for 3000+ pipeline conversion and Airflow workflows. &mdash; <strong>3000+ pipelines migrated</strong></li>
+          <li>Initiated and managed the team enhancing the eCommerce Fraud Detection application (Custom ML solution). &mdash; <strong>Prevents $100M worth of fraudulent transactions per year across International markets</strong></li>
+          <li>Directed the development of the Adjustment Management Tool using GCP, Kafka, and Spark Streaming, ensuring accurate real-time inventory. &mdash; <strong>Maintaining OSA &gt; 95% across Walmart International stores</strong></li>
+          <li>Championed GCP Cloud Cost savings project across Data Analytics. &mdash; <strong>&gt;$2M cloud cost savings</strong></li>
+          <li>Developed Automated Data Pipeline generator. &mdash; <strong>&gt;40% productivity improvement</strong></li>
           <li>Developed and mentored the Big Data Engineering team, fostering expertise in GCP tools and ensuring successful project delivery for ML and Data Science initiatives.</li>
         </ul>
       </div>
-
       <hr class="exp-divider"/>
-
       <div class="exp-block">
-        <div class="exp-heading"><strong>Senior Data Engineer – Data Engineering, Walmart</strong> (Feb 2018 – May 2021)</div>
-        <ul class="exp-achievements">
+        <div class="exp-top">
+          <span class="exp-role">Senior Data Engineer, Data Engineering</span>
+          <span class="exp-dates">Feb 2018 – May 2021</span>
+        </div>
+        <div class="exp-company">Walmart &nbsp;&middot;&nbsp; Bengaluru, India</div>
+        <ul class="exp-list">
           <li>Technical Lead for designing and developing the on-premises Hadoop Data Analytics platform, creating a PySpark-based ingestion framework for real-time and batch processing.</li>
           <li>Led development of Data Lake platform using on-premise Hadoop platform for Walmart China, Central America and Canada.</li>
-          <li>Led the design and development of the patented Metric Definition Tool. — <strong>~80% efficiency gain by reducing analytics ideation-to-production lifecycle from 4 months to 2 weeks</strong></li>
+          <li>Led the design and development of the patented Metric Definition Tool. &mdash; <strong>~80% efficiency gain by reducing analytics ideation-to-production lifecycle from 4 months to 2 weeks</strong></li>
           <li>Developed custom Data Ingestion and Data Quality Framework using Spark and GCP Tech Stack.</li>
-          <li>Led data modeling and architecture for the on-premises Hadoop Data Lake, personally designing and implementing 400+ data models and pipelines using a semi-automated approach. — <strong>400+ data models implemented</strong></li>
+          <li>Led data modeling and architecture for the on-premises Hadoop Data Lake, personally designing and implementing 400+ data models and pipelines using a semi-automated approach. &mdash; <strong>400+ data models implemented</strong></li>
           <li>Developed Automated Data Modelling and Rules Engine utility for automated generation of Data Lineage, ER models and Data Quality configurations.</li>
           <li>Developed expertise in SAP Hana for building Data Analytics and reporting solutions leveraging Tableau.</li>
         </ul>
       </div>
-
       <hr class="exp-divider"/>
       <div class="exp-block">
-        <div class="earlier-label">Earlier Career (2009 – 2018)</div>
-        <ul class="exp-achievements">
-          <li><strong>Walmart (Feb 2015 – Jan 2018)</strong>: Led the technical development of the initial on-premises Hadoop Data Lake, integrating IBM DataStage, Spark/PySpark, and Cassandra to modernize ETL and Big Data capabilities. — <strong>Supporting 800+ critical data pipelines</strong></li>
-          <li><strong>Canadian Tire Corporation (Jul 2012 – Jan 2015)</strong>: Served as Technical Lead in the Centre of Excellence for ETL development (IBM DataStage), leading data model design and technical demonstrations for new Retail clients.</li>
-          <li><strong>Marks &amp; Spencers (Nov 2009 – Jun 2012)</strong>: Specialized in high-volume ETL Data Pipeline development, utilizing IBM DataStage to lead and support 200+ production data pipelines for a UK Retail giant. — <strong>200+ production data pipelines supported</strong></li>
+        <div class="earlier-label">Earlier Career (2009 &ndash; 2018)</div>
+        <ul class="exp-list">
+          <li><strong>Data Engineer, Walmart (Feb 2015 – Jan 2018):</strong> Led the technical development of the initial on-premises Hadoop Data Lake, integrating IBM DataStage, Spark/PySpark, and Cassandra to modernize ETL and Big Data capabilities. &mdash; <strong>Supporting 800+ critical data pipelines</strong></li>
+          <li><strong>ETL Technical Lead, Canadian Tire Corporation (Jul 2012 – Jan 2015):</strong> Served as Technical Lead in the Centre of Excellence for ETL development (IBM DataStage), leading data model design and technical demonstrations for new Retail clients.</li>
+          <li><strong>ETL Developer, Marks &amp; Spencers (Nov 2009 – Jun 2012):</strong> Specialized in high-volume ETL Data Pipeline development, utilizing IBM DataStage to lead and support 200+ production data pipelines for a UK Retail giant. &mdash; <strong>200+ production data pipelines supported</strong></li>
         </ul>
       </div>
+    </div>
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="bottom-item">
+        <span class="bottom-item-title">B.Tech, Computer Science &amp; Engineering</span><br>
+        <span class="bottom-item-sub">Kalinga Institute of Industrial Technology, Bhubaneswar, India &mdash; 2009 &nbsp;&middot;&nbsp; CGPA: 8.5/10</span>
+      </div>
+    </div>
 
-    </section>
+    <div class="section">
+      <div class="section-title">Certifications</div>
+      <div class="cert-row"><strong>iLead</strong> <span>&mdash; Walmart / IIM Bangalore</span></div>
+      <div class="cert-row"><strong>Agentic AI Advanced</strong> <span>&mdash; Coursera</span></div>
+      <div class="cert-row"><strong>Systems Design and DSA</strong> <span>&mdash; Algoexpert</span></div>
+      <div class="cert-row"><strong>Cassandra Certification</strong> <span>&mdash; Datastax</span></div>
+      <div class="cert-row"><strong>IBM Datastage</strong> <span>&mdash; IBM</span></div>
+      <div class="cert-row"><strong>Red Hat Certified Linux Professional</strong> <span>&mdash; Red Hat</span></div>
+    </div>
 
-  </main>
+    <div class="section">
+      <div class="section-title">Patent</div>
+      <div class="bottom-item">
+        <span class="bottom-item-title"><a href="https://patents.google.com/patent/US11138241B2" target="_blank" style="color:var(--dark);text-decoration:none">Metrics Definition Tool</a></span>
+        <span class="bottom-item-sub"> &mdash; US11138241B2</span><br>
+        <span class="bottom-item-sub">Proprietary product that delivered ~80% efficiency gain by reducing the analytics ideation-to-production lifecycle from 4 months to 2 weeks.</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Awards</div>
+      <div class="award-row"><strong>Excellence Award</strong> <span>&mdash; Walmart, 2024, 2018, 2011</span></div>
+      <div class="award-row"><strong>Spark Hackathon Winner</strong> <span>&mdash; Walmart, 2022</span></div>
+      <div class="award-row"><strong>Inspiring Innovation Award</strong> <span>&mdash; Walmart, 2021</span></div>
+    </div>
+  </div>
 
 </div>
 
-
-<!-- ═══════════════ FLOATING CHAT WIDGET ═══════════════ -->
-
-<button class="chat-fab" id="chatFab" title="Chat with Ravi's AI">
+<!-- ═══ FLOATING CHAT WIDGET ═══ -->
+<button class="chat-fab" id="chatFab" title="Chat with Ravi Kiran's AI">
   <img src="profile.jpg" class="fab-photo" alt="Ravi Kiran"
        onerror="this.style.display='none'"/>
-  <span class="fab-text">Chat with Ravi Kiran</span>
-  <div class="fab-badge"></div>
+  <span class="fab-label">Chat with Ravi Kiran</span>
+  <div class="fab-dot"></div>
 </button>
 
 <div class="chat-widget" id="chatWidget">
@@ -590,24 +517,23 @@
     </div>
     <div>
       <div class="widget-name">Ravi Kiran's AI Assistant</div>
-      <div class="widget-sub">Ask me about Ravi Kiran's experience &amp; skills</div>
+      <div class="widget-sub">Ask about experience &amp; skills</div>
     </div>
-    <button class="widget-close" id="chatClose" title="Close">×</button>
+    <button class="widget-close" id="chatClose">×</button>
   </div>
 
   <div class="widget-messages" id="widgetMessages">
     <div class="widget-welcome" id="widgetWelcome">
       <div class="widget-welcome-title">Hi there! 👋</div>
-      <div class="widget-welcome-sub">I can answer questions about Ravi Kiran's background, skills, projects, and achievements.</div>
+      <div class="widget-welcome-sub">Ask me anything about Ravi Kiran's background, projects, and achievements.</div>
     </div>
   </div>
 
   <div class="widget-suggestions" id="widgetSuggestions">
     <button class="suggestion-btn">Current role?</button>
-    <button class="suggestion-btn">Key achievements?</button>
     <button class="suggestion-btn">Agentic AI work?</button>
-    <button class="suggestion-btn">Patent details</button>
     <button class="suggestion-btn">Cloud cost savings?</button>
+    <button class="suggestion-btn">Patent details</button>
   </div>
 
   <div class="widget-input-area">
@@ -631,21 +557,16 @@ const CONFIG = {
   SARVAM_API_KEY: 'sk_qu6g8mnt_nePcCAI7nfl3Ssk8pdzqG1zl',
   SARVAM_API_URL: 'https://api.sarvam.ai/v1/chat/completions',
   SARVAM_MODEL:   'sarvam-m',
-  SYSTEM_PROMPT:  "You are an AI assistant representing Ravi Kiran Achalla, a Senior Manager II with 15 years of experience in Data Engineering, Big Data, and Cloud Analytics at Walmart.\n\nAnswer questions about Ravi Kiran based on this information:\n\nCURRENT ROLE: Senior Manager II, Data Engineering at Walmart (Nov 2023 \u2013 Present)\n- Leading a team of 18 Data Engineers for driving the Single Data Platform Acceleration initiative, to provide a unified customer experience across Walmart's International markets.\n- Driving the development and adoption of the Multi-Tenant eCommerce 360 Data Product, providing a consolidated customer journey view. \u2014 $20M positive impact on product cost margin with adoption rate >60%\n- Architected and governed the Unified Data Analytics solution across Walmart's tenants, defining architecture, compliance, security, and access policies for a Peta-Scale GCP-based Data Lake serving over 800+ internal users. \u2014 800+ internal users served\n- Built end-to-end Agentic AI pipelines for Data Engineering automation using Claude Code, Microsoft Copilot Studio, and Google ADK \u2014 covering data ingestion, quality checks, pipeline generation, and support automation. \u2014 >40% reduction in manual effort\n- Directed the creation of a Data Analytics solution for Global Supplier KPIs, resulting in high supplier satisfaction and enabling data monetization. \u2014 $15M in revenue generation\n- Defined and implemented a 3-year data strategy roadmap focused on platformisation, data silos elimination and GenAI integration. \u2014 Estimated 20% efficiency gains across International markets \u2014 Canada and Mexico\n- Spearheaded Cloud Cost Optimization initiatives, transformed FinOps practices. \u2014 $5M in annual cloud cost savings \u2014 reduced $25M annual cloud budget by 20%\n\nPREVIOUS ROLES:\n- Staff Data Engineer & Senior Manager I, Walmart (Jun 2021 \u2013 Oct 2023): Led the migration of the Data Lake platform from on-premises Hadoop cluster to a modernized GCP-based data platform, developing an automated approach for 3000+ pipeline conversion and Airflow workflows. \u2014 3000+ pipelines migrated\n- Senior Data Engineer, Walmart (Feb 2018 \u2013 May 2021): Technical Lead for designing and developing the on-premises Hadoop Data Analytics platform, creating a PySpark-based ingestion framework for real-time and batch processing.\n- Data Engineer, Walmart (Feb 2015 \u2013 Jan 2018): Led the technical development of the initial on-premises Hadoop Data Lake, integrating IBM DataStage, Spark/PySpark, and Cassandra to modernize ETL and Big Data capabilities. \u2014 Supporting 800+ critical data pipelines\n- ETL Technical Lead, Canadian Tire Corporation (Jul 2012 \u2013 Jan 2015): Served as Technical Lead in the Centre of Excellence for ETL development (IBM DataStage), leading data model design and technical demonstrations for new Retail clients.\n- ETL Developer, Marks & Spencers (Nov 2009 \u2013 Jun 2012): Specialized in high-volume ETL Data Pipeline development, utilizing IBM DataStage to lead and support 200+ production data pipelines for a UK Retail giant. \u2014 200+ production data pipelines supported\n\nSKILLS: LLM, RAG, Claude Code, Microsoft Copilot Studio, Google ADK, GPT, Gemini, FastAPI, Streamlit, GCP Cloud Platform (GCS, Dataproc, BigQuery), Azure IaaS, Terraform, Spark, Hadoop, Hudi, Hive, Tez, Cloud Cost Optimization, Data Architecture, Data Modeling, Data Strategy & Roadmap Planning, Data Engineering, Big Data Ecosystems, Data Analytics Enablement, Data Governance & Compliance, Reporting & Data Visualization, Data Catalog, Dataplex, Python, PySpark, Scala, IBM Datastage, Talend, BigQuery, Hudi, Hive, SAP Hana, Teradata, Oracle, Greenplum, SQL Server, Neo4j, Apache Cassandra, Airflow, Automic, ControlM, Kafka, Kafka Connect, Spark Streaming, Team Leadership & Management (Scale, cross-functional, vendor teams), Budget Oversight & Financial Planning, Coaching & Career Development, Partnership & Stakeholder Management, Executive Presentation\n\nEDUCATION: B.Tech CSE, KIITS Bhubaneswar, 2009 (CGPA 8.5)\n\nPATENT: Metrics Definition Tool (US11138241B2) \u2014 Proprietary product that delivered ~80% efficiency gain by reducing the analytics ideation-to-production lifecycle from 4 months to 2 weeks.\n\nAWARDS: Excellence Award (2024, 2018, 2011), Spark Hackathon Winner (2022), Inspiring Innovation Award (2021)\n\nCERTIFICATIONS: iLead, Agentic AI Advanced, Systems Design and DSA, Cassandra Certification, IBM Datastage, Red Hat Certified Linux Professional\n\nCONTACT: achallakiran@gmail.com\n\nKeep answers concise, professional, and factual. If asked something not covered above, suggest contacting Ravi Kiran at achallakiran@gmail.com.\n"
+  SYSTEM_PROMPT:  "You are an AI assistant representing Ravi Kiran Achalla, a Senior Manager II with 15 years of experience in Data Engineering, Big Data, and Cloud Analytics at Walmart.\n\nAnswer questions about Ravi Kiran based on this:\n\nCURRENT ROLE: Senior Manager II, Data Engineering at Walmart (Nov 2023 \u2013 Present)\n- Leading a team of 18 Data Engineers for driving the Single Data Platform Acceleration initiative, to provide a unified customer experience across Walmart's International markets.\n- Driving the development and adoption of the Multi-Tenant eCommerce 360 Data Product, providing a consolidated customer journey view. \u2014 $20M positive impact on product cost margin with adoption rate >60%\n- Architected and governed the Unified Data Analytics solution across Walmart's tenants, defining architecture, compliance, security, and access policies for a Peta-Scale GCP-based Data Lake serving over 800+ internal users. \u2014 800+ internal users served\n- Built end-to-end Agentic AI pipelines for Data Engineering automation using Claude Code, Microsoft Copilot Studio, and Google ADK \u2014 covering data ingestion, quality checks, pipeline generation, and support automation. \u2014 >40% reduction in manual effort\n- Directed the creation of a Data Analytics solution for Global Supplier KPIs, resulting in high supplier satisfaction and enabling data monetization. \u2014 $15M in revenue generation\n- Defined and implemented a 3-year data strategy roadmap focused on platformisation, data silos elimination and GenAI integration. \u2014 Estimated 20% efficiency gains across International markets \u2014 Canada and Mexico\n- Spearheaded Cloud Cost Optimization initiatives, transformed FinOps practices. \u2014 $5M in annual cloud cost savings \u2014 reduced $25M annual cloud budget by 20%\n\nPREVIOUS ROLES:\n- Staff Data Engineer & Senior Manager I, Walmart (Jun 2021 \u2013 Oct 2023): Led the migration of the Data Lake platform from on-premises Hadoop cluster to a modernized GCP-based data platform, developing an automated approach for 3000+ pipeline conversion and Airflow workflows. \u2014 3000+ pipelines migrated\n- Senior Data Engineer, Walmart (Feb 2018 \u2013 May 2021): Technical Lead for designing and developing the on-premises Hadoop Data Analytics platform, creating a PySpark-based ingestion framework for real-time and batch processing.\n- Data Engineer, Walmart (Feb 2015 \u2013 Jan 2018): Led the technical development of the initial on-premises Hadoop Data Lake, integrating IBM DataStage, Spark/PySpark, and Cassandra to modernize ETL and Big Data capabilities. \u2014 Supporting 800+ critical data pipelines\n- ETL Technical Lead, Canadian Tire Corporation (Jul 2012 \u2013 Jan 2015): Served as Technical Lead in the Centre of Excellence for ETL development (IBM DataStage), leading data model design and technical demonstrations for new Retail clients.\n- ETL Developer, Marks & Spencers (Nov 2009 \u2013 Jun 2012): Specialized in high-volume ETL Data Pipeline development, utilizing IBM DataStage to lead and support 200+ production data pipelines for a UK Retail giant. \u2014 200+ production data pipelines supported\n\nSKILLS: LLM, RAG, Claude Code, Microsoft Copilot Studio, Google ADK, GPT, Gemini, FastAPI, Streamlit, GCP Cloud Platform (GCS, Dataproc, BigQuery), Azure IaaS, Terraform, Spark, Hadoop, Hudi, Hive, Tez, Cloud Cost Optimization, Data Architecture, Data Modeling, Data Strategy & Roadmap Planning, Data Engineering, Big Data Ecosystems, Data Analytics Enablement, Data Governance & Compliance, Reporting & Data Visualization, Data Catalog, Dataplex, Python, PySpark, Scala, IBM Datastage, Talend, BigQuery, Hudi, Hive, SAP Hana, Teradata, Oracle, Greenplum, SQL Server, Neo4j, Apache Cassandra, Airflow, Automic, ControlM, Kafka, Kafka Connect, Spark Streaming, Team Leadership & Management (Scale, cross-functional, vendor teams), Budget Oversight & Financial Planning, Coaching & Career Development, Partnership & Stakeholder Management, Executive Presentation\n\nEDUCATION: B.Tech CSE, Kalinga Institute of Industrial Technology, 2009 (CGPA 8.5)\n\nPATENT: Metrics Definition Tool (US11138241B2) \u2014 Proprietary product that delivered ~80% efficiency gain by reducing the analytics ideation-to-production lifecycle from 4 months to 2 weeks.\n\nAWARDS: Excellence Award (2024, 2018, 2011), Spark Hackathon Winner (2022), Inspiring Innovation Award (2021)\n\nCERTIFICATIONS: iLead, Agentic AI Advanced, Systems Design and DSA, Cassandra Certification, IBM Datastage, Red Hat Certified Linux Professional\n\nKeep answers concise and professional. If asked something not covered, suggest contacting Ravi Kiran at achallakiran@gmail.com."
 };
 
 const fab    = document.getElementById('chatFab');
 const widget = document.getElementById('chatWidget');
-const closeBtn = document.getElementById('chatClose');
-
 fab.addEventListener('click', () => {
   widget.classList.toggle('open');
-  if (widget.classList.contains('open')) {
-    document.getElementById('widgetInput').focus();
-    fab.querySelector('.fab-badge').style.display = 'none';
-  }
+  if (widget.classList.contains('open')) document.getElementById('widgetInput').focus();
 });
-closeBtn.addEventListener('click', () => widget.classList.remove('open'));
+document.getElementById('chatClose').addEventListener('click', () => widget.classList.remove('open'));
 
 document.querySelectorAll('.suggestion-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -659,8 +580,8 @@ input.addEventListener('input', () => {
   input.style.height = 'auto';
   input.style.height = Math.min(input.scrollHeight, 80) + 'px';
 });
-input.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input.value); }
+input.addEventListener('keydown', ev => {
+  if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); sendMessage(input.value); }
 });
 
 const history = [];
@@ -671,7 +592,7 @@ function scrollBottom() {
   m.scrollTop = m.scrollHeight;
 }
 
-function formatText(text) {
+function fmt(text) {
   return text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/^[-•] (.+)/gm, '<li>$1</li>')
@@ -684,66 +605,45 @@ function formatText(text) {
 function appendMsg(role, text) {
   const welcome = document.getElementById('widgetWelcome');
   if (welcome) welcome.remove();
-  const wrap   = document.createElement('div');
-  wrap.className = `wmsg ${role}`;
-  const avatar = document.createElement('div');
-  avatar.className = 'wmsg-avatar';
-  if (role === 'bot') {
-    avatar.innerHTML = '<img src="profile.jpg" alt="Ravi Kiran" onerror="this.style.display=\'none\';this.parentElement.textContent=\'👨\u200d💻\'">';
-  } else {
-    avatar.textContent = '👤';
-  }
-  const bubble = document.createElement('div');
-  bubble.className = 'wmsg-bubble';
-  if (role === 'bot') bubble.innerHTML = formatText(text);
-  else bubble.textContent = text;
-  wrap.appendChild(avatar);
-  wrap.appendChild(bubble);
+  const wrap   = document.createElement('div'); wrap.className = `wmsg ${role}`;
+  const avatar = document.createElement('div'); avatar.className = 'wmsg-avatar';
+  if (role === 'bot') avatar.innerHTML = '<img src="profile.jpg" onerror="this.style.display=\'none\'">';
+  else avatar.textContent = '👤';
+  const bubble = document.createElement('div'); bubble.className = 'wmsg-bubble';
+  if (role === 'bot') bubble.innerHTML = fmt(text); else bubble.textContent = text;
+  wrap.appendChild(avatar); wrap.appendChild(bubble);
   document.getElementById('widgetMessages').appendChild(wrap);
   scrollBottom();
 }
 
 function showTyping() {
-  const wrap = document.createElement('div');
-  wrap.className = 'wmsg bot'; wrap.id = 'typingWrap';
-  const avatar = document.createElement('div');
-  avatar.className = 'wmsg-avatar';
-  avatar.innerHTML = '<img src="profile.jpg" alt="Ravi Kiran" onerror="this.style.display=\'none\'">';
-  const dots = document.createElement('div');
-  dots.className = 'typing-dots';
+  const wrap = document.createElement('div'); wrap.className = 'wmsg bot'; wrap.id = 'typingWrap';
+  const av   = document.createElement('div'); av.className = 'wmsg-avatar';
+  av.innerHTML = '<img src="profile.jpg" onerror="this.style.display=\'none\'">';
+  const dots = document.createElement('div'); dots.className = 'typing-dots';
   dots.innerHTML = '<span></span><span></span><span></span>';
-  wrap.appendChild(avatar); wrap.appendChild(dots);
+  wrap.appendChild(av); wrap.appendChild(dots);
   document.getElementById('widgetMessages').appendChild(wrap);
   scrollBottom();
 }
 
-function hideTyping() {
-  const el = document.getElementById('typingWrap');
-  if (el) el.remove();
-}
+function hideTyping() { const el = document.getElementById('typingWrap'); if (el) el.remove(); }
 
-async function callSarvam(userMessage) {
-  if (!CONFIG.SARVAM_API_KEY || CONFIG.SARVAM_API_KEY.startsWith('YOUR_')) {
-    return '⚠️ API key not configured. Update SARVAM_API_KEY in index.html to enable AI responses.';
-  }
-  history.push({ role: 'user', content: userMessage });
-  const resp = await fetch(CONFIG.SARVAM_API_URL, {
+async function callSarvam(msg) {
+  if (!CONFIG.SARVAM_API_KEY || CONFIG.SARVAM_API_KEY.startsWith('YOUR_'))
+    return '⚠️ API key not configured. Update SARVAM_API_KEY in index.html.';
+  history.push({ role: 'user', content: msg });
+  const r = await fetch(CONFIG.SARVAM_API_URL, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'api-subscription-key': CONFIG.SARVAM_API_KEY
-    },
+    headers: { 'Content-Type': 'application/json', 'api-subscription-key': CONFIG.SARVAM_API_KEY },
     body: JSON.stringify({
       model: CONFIG.SARVAM_MODEL,
-      messages: [
-        { role: 'system', content: CONFIG.SYSTEM_PROMPT },
-        ...history
-      ],
+      messages: [{ role: 'system', content: CONFIG.SYSTEM_PROMPT }, ...history],
       max_tokens: 600
     })
   });
-  if (!resp.ok) throw new Error(`API error ${resp.status}`);
-  const data = await resp.json();
+  if (!r.ok) throw new Error(`${r.status}`);
+  const data = await r.json();
   const reply = data.choices[0].message.content;
   history.push({ role: 'assistant', content: reply });
   return reply;
@@ -753,8 +653,7 @@ async function sendMessage(text) {
   text = text.trim();
   if (!text || loading) return;
   input.value = ''; input.style.height = 'auto';
-  appendMsg('user', text);
-  loading = true;
+  appendMsg('user', text); loading = true;
   document.getElementById('widgetSend').disabled = true;
   showTyping();
   try {
@@ -762,13 +661,10 @@ async function sendMessage(text) {
     hideTyping(); appendMsg('bot', reply);
   } catch(err) {
     hideTyping(); appendMsg('bot', '⚠️ Something went wrong. Please try again.');
-    console.error(err);
   } finally {
-    loading = false;
-    document.getElementById('widgetSend').disabled = false;
+    loading = false; document.getElementById('widgetSend').disabled = false;
   }
 }
-
 document.getElementById('widgetSend').addEventListener('click', () => sendMessage(input.value));
 </script>
 
