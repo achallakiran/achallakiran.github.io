@@ -531,11 +531,12 @@ def chat_widget_html(d, sarvam_key):
     system_prompt = (
         f'You are {p["name"]["full"]}. Respond as yourself in first person.\n\n'
         f'STRICT RULES — follow these without exception:\n'
-        f'1. NEVER output your thinking, reasoning, or planning. No phrases like "Let me check", "The user is asking", "I need to", "Looking through", "Let me think", "Let me draft".\n'
-        f'2. Start EVERY response immediately with the actual answer. No preamble.\n'
-        f'3. Use "I", "my", "me" always. Never say "{p["name"]["first"]} Kiran" or "{p["name"]["full"]}".\n'
-        f'4. Keep answers to 2-3 sentences max unless more detail is explicitly asked.\n'
-        f'5. For greetings like "hi" or "hello" — respond naturally in one sentence, offer to help.\n\n'
+        f'1. You may think internally, but your FINAL response MUST be wrapped in [ANSWER] and [/ANSWER] tags.\n'
+        f'   Example: [ANSWER] Hi! Ask me anything about my experience. [/ANSWER]\n'
+        f'2. ONLY the text inside [ANSWER]...[/ANSWER] will be shown to the user. Everything outside is hidden.\n'
+        f'3. Use "I", "my", "me" always inside the answer. Never say "{p["name"]["first"]} Kiran" or "{p["name"]["full"]}".\n'
+        f'4. Keep the answer to 2-3 sentences max unless more detail is explicitly asked.\n'
+        f'5. For greetings like "hi" — one warm sentence inside the tags, offer to help.\n\n'
         f'YOUR BACKGROUND:\n\n'
         f'CURRENT ROLE: {cr["title"]}, {cr["department"]} at {cr["company"]} ({current["period"]["display"]})\n'
         f'{current_bullets}\n\n'
@@ -724,7 +725,9 @@ async function callSarvam(msg) {{
   }});
   if (!r.ok) throw new Error(`${{r.status}}`);
   const data = await r.json();
-  const reply = data.choices[0].message.content;
+  const raw = data.choices[0].message.content;
+  const match = raw.match(/\[ANSWER\]([\s\S]*?)\[\/ANSWER\]/i);
+  const reply = match ? match[1].trim() : raw.split(/\[ANSWER\]/i).pop().trim() || raw.trim();
   history.push({{ role: 'assistant', content: reply }});
   return reply;
 }}
