@@ -906,6 +906,277 @@ def render_resume(d):
 </html>
 """
 
+# ── ATS-safe renderer ─────────────────────────────────────────────────────────
+
+ATS_CSS = """
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Calibri', 'Arial', sans-serif;
+    font-size: 11pt;
+    color: #000;
+    background: #fff;
+    line-height: 1.45;
+    padding: 0;
+  }
+
+  /* Print wrapper — A4 */
+  .ats-page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 36px 48px;
+    background: #fff;
+  }
+
+  /* Name block */
+  .ats-name {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 2px;
+    line-height: 1.2;
+  }
+
+  .ats-headline {
+    font-size: 11pt;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .ats-contact {
+    font-size: 10pt;
+    color: #222;
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+
+  .ats-contact a { color: #000; text-decoration: none; }
+
+  /* Section */
+  .ats-section { margin-bottom: 16px; }
+
+  .ats-section-title {
+    font-size: 11pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1.5px solid #000;
+    padding-bottom: 2px;
+    margin-bottom: 9px;
+    color: #000;
+  }
+
+  /* Experience */
+  .ats-job { margin-bottom: 12px; }
+
+  .ats-job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 2px;
+  }
+
+  .ats-job-title { font-weight: 700; font-size: 11pt; }
+  .ats-job-dates { font-size: 10pt; color: #333; white-space: nowrap; }
+  .ats-job-company { font-size: 10.5pt; color: #333; margin-bottom: 5px; }
+
+  .ats-bullets { padding-left: 18px; }
+
+  .ats-bullets li {
+    font-size: 10.5pt;
+    color: #111;
+    margin-bottom: 3px;
+    line-height: 1.5;
+  }
+
+  /* Skills */
+  .ats-skill-row { margin-bottom: 5px; font-size: 10.5pt; }
+  .ats-skill-cat { font-weight: 700; }
+
+  /* Education / Certs / Awards */
+  .ats-item { margin-bottom: 5px; font-size: 10.5pt; }
+  .ats-item-title { font-weight: 700; }
+  .ats-item-sub { color: #333; }
+
+  /* Print bar (hidden when printing) */
+  .ats-print-bar {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 12px 48px 0;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .ats-btn {
+    padding: 7px 16px;
+    border-radius: 5px;
+    font-size: 11pt;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .ats-btn-primary { background: #1a1a2e; color: #fff; border: none; }
+  .ats-btn-secondary { background: #fff; color: #444; border: 1px solid #ccc; text-decoration: none; display: inline-block; }
+
+  @media print {
+    .ats-print-bar { display: none; }
+    body { padding: 0; }
+    .ats-page { padding: 20mm 18mm; max-width: 100%; }
+  }
+
+  @page { size: A4; margin: 0; }
+"""
+
+def render_ats(d):
+    p  = d['personal']
+    cr = d['current_role']
+    sm = d['summary']
+
+    # Contact line
+    contact_parts = [
+        p['email'],
+        p['phone'],
+        p['links']['linkedin'].replace('https://www.linkedin.com/in/', 'linkedin.com/in/'),
+        p['links']['github'].replace('https://github.com/', 'github.com/'),
+        f"{p['location']['city']}, {p['location']['country']}",
+    ]
+    contact_line = ' | '.join(e(x) for x in contact_parts)
+
+    # Skills — flat grouped rows
+    skill_rows = '\n'.join(
+        f'<div class="ats-skill-row"><span class="ats-skill-cat">{e(g["label"])}:</span> {e(", ".join(g["items"]))}</div>'
+        for g in d['skills'].values()
+    )
+
+    # Summary bullets
+    summary_lis = '\n'.join(f'<li>{e(h)}</li>' for h in sm['highlights'])
+
+    # Experience — detailed (2018+)
+    detailed = [x for x in d['experience'] if x['period']['start'] >= '2018-02']
+    earlier  = [x for x in d['experience'] if x['period']['start'] <  '2018-02']
+
+    def job_block(exp):
+        lis = '\n'.join(
+            '<li>' + e(a['description']) + (f' {e(a["impact"])}.' if a.get('impact') else '') + '</li>'
+            for a in exp['achievements']
+        )
+        dept = f', {e(exp["department"])}' if exp.get('department') else ''
+        return f"""    <div class="ats-job">
+      <div class="ats-job-header">
+        <span class="ats-job-title">{e(exp['title'])}{dept}</span>
+        <span class="ats-job-dates">{e(exp['period']['display'])}</span>
+      </div>
+      <div class="ats-job-company">{e(exp['company'])}{(' · ' + e(exp['location'])) if exp.get('location') else ''}</div>
+      <ul class="ats-bullets">{lis}</ul>
+    </div>"""
+
+    exp_blocks = '\n'.join(job_block(x) for x in detailed)
+
+    earlier_lis = '\n'.join(
+        '<li><b>' + e(x['title']) + ', ' + e(x['company']) + '</b> (' + e(x['period']['display']) + '): '
+        + e(x['achievements'][0]['description'])
+        + (f' {e(x["achievements"][0]["impact"])}.' if x['achievements'][0].get('impact') else '')
+        + '</li>'
+        for x in earlier
+    )
+
+    # Education
+    edu = d['education'][0]
+    edu_block = f"""    <div class="ats-item">
+      <span class="ats-item-title">{e(edu['degree'])}, {e(edu['field'])}</span><br>
+      <span class="ats-item-sub">{e(edu['institution_full'])}, {e(edu['location'])} — {e(edu['year_graduation'])} (CGPA: {e(edu['cgpa'])}/10)</span>
+    </div>"""
+
+    # Certifications
+    cert_items = '\n'.join(
+        f'<div class="ats-item"><span class="ats-item-title">{e(c["name"])}</span> — <span class="ats-item-sub">{e(c["issuer"])}</span></div>'
+        for c in d['certifications']
+    )
+
+    # Patents
+    pat = d['patents'][0]
+    patent_block = f"""    <div class="ats-item">
+      <span class="ats-item-title">{e(pat['name'])}</span> ({e(pat['number'])})<br>
+      <span class="ats-item-sub">{e(pat['description'])}</span>
+    </div>"""
+
+    # Awards
+    award_items = '\n'.join(
+        f'<div class="ats-item"><span class="ats-item-title">{e(a["name"])}</span> — <span class="ats-item-sub">{e(a["issuer"])}, {", ".join(str(y) for y in a["years"])}</span></div>'
+        for a in d['awards']
+    )
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{e(p['name']['full'])} — ATS Resume</title>
+  <style>
+{ATS_CSS}
+  </style>
+</head>
+<body>
+
+<div class="ats-print-bar">
+  <a href="index.html" class="ats-btn ats-btn-secondary">← Back</a>
+  <button class="ats-btn ats-btn-primary" onclick="window.print()">⬇ Save as PDF</button>
+</div>
+
+<div class="ats-page">
+
+  <div class="ats-name">{e(p['name']['full'])}</div>
+  <div class="ats-headline">{e(cr['title'])}, {e(cr['department'])} · {e(cr['company'])}</div>
+  <div class="ats-contact">{contact_line}</div>
+
+  <div class="ats-section">
+    <div class="ats-section-title">Professional Summary</div>
+    <ul class="ats-bullets">{summary_lis}</ul>
+  </div>
+
+  <div class="ats-section">
+    <div class="ats-section-title">Skills</div>
+    {skill_rows}
+  </div>
+
+  <div class="ats-section">
+    <div class="ats-section-title">Work Experience</div>
+    {exp_blocks}
+  </div>
+
+  <div class="ats-section">
+    <div class="ats-section-title">Earlier Career (2009 – 2018)</div>
+    <ul class="ats-bullets">{earlier_lis}</ul>
+  </div>
+
+  <div class="ats-section">
+    <div class="ats-section-title">Education</div>
+    {edu_block}
+  </div>
+
+  <div class="ats-section">
+    <div class="ats-section-title">Certifications</div>
+    {cert_items}
+  </div>
+
+  <div class="ats-section">
+    <div class="ats-section-title">Patents</div>
+    {patent_block}
+  </div>
+
+  <div class="ats-section">
+    <div class="ats-section-title">Awards</div>
+    {award_items}
+  </div>
+
+</div>
+</body>
+</html>
+"""
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
@@ -922,6 +1193,8 @@ if __name__ == '__main__':
 
     (DIR / 'index.html').write_text(render_index(d, sarvam_key))
     (DIR / 'resume.html').write_text(render_resume(d))
+    (DIR / 'ats.html').write_text(render_ats(d))
     print(f"✅  index.html   — resume + chat widget")
     print(f"✅  resume.html  — clean printable version")
+    print(f"✅  ats.html     — ATS-safe single-column (open in browser → Save as PDF)")
     print(f"🔑  Sarvam key   — {'(from existing file)' if sarvam_key != 'YOUR_SARVAM_API_KEY_HERE' else 'PLACEHOLDER — update manually'}")
