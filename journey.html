@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAVI.BOT — An Origin Story | Ravi Kiran Achalla</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --act1: #F5A623;
+            --act2: #5C6BC0;
+            --act3: #2ECC71;
+            --act4: #0071CE;
+            --act5: #E65100;
+            --act6: #7B1FA2;
+            --cyan: #00BCD4;
+            --black: #111;
+            --white: #FAFAFA;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+            padding-top: 50px;
+        }
+
+        /* ═══ COVER ═══ */
+        .cover {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, #1a0a2e 0%, #111 60%);
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(123,29,162,0.25), transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .cover-eyebrow {
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 5px;
+            color: rgba(255,255,255,0.65);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .cover-title {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(5rem, 16vw, 11rem);
+            color: var(--white);
+            line-height: 0.85;
+            letter-spacing: 6px;
+            text-shadow: 5px 5px 0 #7B1FA2, 10px 10px 0 rgba(0,188,212,0.2);
+        }
+
+        .cover-title .dot {
+            color: var(--cyan);
+        }
+
+        .cover-subtitle {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(1rem, 3vw, 1.6rem);
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 5px;
+            margin-top: 1.25rem;
+            text-transform: uppercase;
+        }
+
+        .cover-tagline {
+            margin-top: 2.5rem;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            color: rgba(255,255,255,0.75);
+            font-style: italic;
+            max-width: 380px;
+            line-height: 1.6;
+        }
+
+        .cover-name {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.55);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: nudge 2.5s ease-in-out infinite;
+        }
+
+        .scroll-hint::after { content: '↓'; font-size: 1.2rem; }
+
+        @keyframes nudge {
+            0%, 100% { transform: translateY(0); opacity: 0.2; }
+            50% { transform: translateY(8px); opacity: 0.5; }
+        }
+
+        /* ═══ SECTION DIVIDER ═══ */
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.07), transparent);
+            margin: 0;
+        }
+
+        /* ═══ ACT HEADER ═══ */
+        .act-section {
+            padding-bottom: 1rem;
+        }
+
+        .act-header {
+            padding: 5rem 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .act-number {
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 0.6rem;
+        }
+
+        .act-title {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(2.2rem, 7vw, 4.5rem);
+            letter-spacing: 4px;
+            line-height: 1;
+        }
+
+        .act-rule {
+            width: 60px;
+            height: 4px;
+            margin: 1.25rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* ═══ NARRATOR ═══ */
+        .narrator {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+            max-width: 660px;
+            margin: 2.5rem auto 2rem;
+            padding: 0 2rem;
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+
+        .narrator.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .narrator-photo {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .narrator-bubble {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            border-top-left-radius: 4px;
+            padding: 0.9rem 1.1rem;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            font-style: italic;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+        }
+
+        .narrator-bubble::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 14px;
+            border: 6px solid transparent;
+            border-right-color: rgba(255,255,255,0.09);
+        }
+
+        /* ═══ PANELS GRID ═══ */
+        .panels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr));
+            gap: 2.5rem 2rem;
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 1rem 2rem 4.5rem;
+        }
+
+        .panel {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .panel-img {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+            border: 2px solid rgba(255,255,255,0.08);
+        }
+
+        .panel-narration {
+            margin-top: 0.85rem;
+            font-size: 0.875rem;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.92) !important;
+            padding-left: 1rem;
+            border-left: 3px solid;
+        }
+
+        /* ═══ STATS ═══ */
+        .stats-section {
+            background: #0a0a0a;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .section-heading {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            letter-spacing: 4px;
+            margin-bottom: 3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.25rem;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            padding: 1.5rem 1rem;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.025);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-number {
+            font-family: 'Bangers', cursive;
+            font-size: 2.4rem;
+            letter-spacing: 2px;
+            color: var(--cyan);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.72);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.4rem;
+            line-height: 1.4;
+        }
+
+        /* ═══ SKILLS ═══ */
+        .skills-section {
+            padding: 5rem 2rem;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 1.25rem;
+            margin-top: 0;
+        }
+
+        .skill-card {
+            padding: 1.4rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.025);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .skill-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .skill-card-title {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 0.9rem;
+            opacity: 1;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .tag {
+            font-size: 0.72rem;
+            padding: 0.22rem 0.6rem;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.88);
+        }
+
+        /* ═══ FOOTER ═══ */
+        .footer {
+            background: #0a0a0a;
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .prophecy-line {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(1rem, 3.5vw, 1.8rem);
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.4;
+        }
+
+        .prophecy-line span { color: var(--cyan); }
+
+        .footer-role {
+            margin-top: 1.25rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 1px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--cyan); }
+
+        /* ═══ COLOR HELPERS ═══ */
+        .c1 { color: var(--act1); }
+        .c2 { color: var(--act2); }
+        .c3 { color: var(--act3); }
+        .c4 { color: var(--act4); }
+        .c5 { color: var(--act5); }
+        .c6 { color: var(--act6); }
+        .cc { color: var(--cyan); }
+
+        .bg1 { background: var(--act1); }
+        .bg2 { background: var(--act2); }
+        .bg3 { background: var(--act3); }
+        .bg4 { background: var(--act4); }
+        .bg5 { background: var(--act5); }
+        .bg6 { background: var(--act6); }
+
+        .border1 { border-color: var(--act1); }
+        .border2 { border-color: var(--act2); }
+        .border3 { border-color: var(--act3); }
+        .border4 { border-color: var(--act4); }
+        .border5 { border-color: var(--act5); }
+        .border6 { border-color: var(--act6); }
+
+        /* ═══ SITE HEADER ═══ */
+        .site-header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 50px;
+            background: rgba(13,13,13,0.97);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 200;
+        }
+
+        .site-tabs {
+            display: flex;
+            gap: 4px;
+        }
+        .site-tab {
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            color: rgba(255,255,255,0.45);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .site-tab:hover { color: rgba(255,255,255,0.85); }
+        .site-tab.active {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.18);
+            color: rgba(255,255,255,0.95);
+        }
+
+        .site-download {
+            padding: 5px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.18);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.65);
+            background: none;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .site-download:hover {
+            border-color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* ═══ CHATBOT (copied from index.html) ═══ */
+        .chat-fab {
+            position: fixed; bottom: 28px; right: 28px;
+            background: #1a1a2e; color: #ffffff;
+            border: none; border-radius: 50px;
+            padding: 10px 20px 10px 8px;
+            display: flex; align-items: center; gap: 10px;
+            cursor: pointer; z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            font-family: 'Nunito', sans-serif;
+            transition: all 0.2s;
+        }
+        .chat-fab:hover { background: #2d3561; transform: translateY(-2px); }
+        .fab-photo {
+            width: 36px; height: 36px; border-radius: 50%;
+            object-fit: cover; object-position: center top;
+            border: 2px solid #c84b31; flex-shrink: 0;
+        }
+        .fab-label { font-size: 13px; font-weight: 600; }
+        .fab-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #22c55e; position: absolute;
+            top: 8px; right: 8px;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%,100% { opacity:1; transform:scale(1); }
+            50%      { opacity:.5; transform:scale(1.4); }
+        }
+        .chat-widget {
+            position: fixed; bottom: 90px; right: 28px;
+            width: 370px; height: 520px;
+            background: #ffffff; border-radius: 16px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+            display: flex; flex-direction: column;
+            z-index: 999; overflow: hidden;
+            transform: scale(0.92) translateY(14px);
+            opacity: 0; pointer-events: none;
+            transform-origin: bottom right;
+            transition: transform 0.22s ease, opacity 0.22s ease;
+        }
+        .chat-widget.open {
+            transform: scale(1) translateY(0);
+            opacity: 1; pointer-events: all;
+        }
+        .widget-header {
+            background: #1a1a2e; color: #ffffff;
+            padding: 14px 16px;
+            display: flex; align-items: center; gap: 10px;
+            flex-shrink: 0;
+        }
+        .widget-avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 2px solid #c84b31; overflow: hidden;
+            background: #2d3561; flex-shrink: 0;
+        }
+        .widget-avatar img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+        .widget-name { font-weight: 700; font-size: 13px; }
+        .widget-sub  { font-size: 10px; opacity: 0.7; margin-top: 1px; }
+        .widget-close {
+            margin-left: auto; background: none; border: none;
+            color: rgba(255,255,255,0.7); font-size: 20px;
+            cursor: pointer; padding: 2px 6px; line-height:1;
+        }
+        .widget-close:hover { color: #ffffff; }
+        .widget-messages {
+            flex:1; overflow-y:auto; padding:12px;
+            display:flex; flex-direction:column; gap:10px;
+            background: #ffffff;
+        }
+        .wmsg { display:flex; gap:8px; align-items:flex-start; }
+        .wmsg.user { flex-direction:row-reverse; }
+        .wmsg-avatar {
+            width:28px; height:28px; border-radius:50%;
+            overflow:hidden; flex-shrink:0;
+            background:#f7f7f7;
+            display:flex; align-items:center; justify-content:center;
+            font-size:14px;
+        }
+        .wmsg-avatar img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+        .wmsg-bubble {
+            max-width:80%; padding:9px 12px; border-radius:14px;
+            font-size:12.5px; line-height:1.5;
+        }
+        .wmsg.bot  .wmsg-bubble { background:#f7f7f7; color:#1a1a1a; border-radius:4px 14px 14px 14px; }
+        .wmsg.user .wmsg-bubble { background:#1a1a2e; color:#ffffff; border-radius:14px 4px 14px 14px; }
+        .wmsg-bubble p { margin-bottom:6px; }
+        .wmsg-bubble p:last-child { margin-bottom:0; }
+        .wmsg-bubble ul { padding-left:14px; margin:4px 0; }
+        .wmsg-bubble li { margin-bottom:2px; }
+        .widget-suggestions {
+            display:flex; flex-wrap:wrap; gap:6px;
+            padding:6px 12px 8px; background:#ffffff;
+        }
+        .suggestion-btn {
+            background:none; border:1px solid #dedede;
+            border-radius:20px; padding:4px 10px;
+            font-size:11px; color:#444444;
+            cursor:pointer; font-family:'Nunito',sans-serif;
+            transition:all 0.15s;
+        }
+        .suggestion-btn:hover { border-color:#1a1a2e; color:#1a1a2e; }
+        .widget-input-area {
+            border-top:1px solid #dedede;
+            padding:10px 12px 12px; flex-shrink:0;
+            background: #ffffff;
+        }
+        .widget-input-row {
+            display:flex; align-items:flex-end; gap:8px;
+            background:#f7f7f7; border:1px solid #dedede;
+            border-radius:10px; padding:8px 10px;
+        }
+        .widget-input {
+            flex:1; background:transparent; border:none; outline:none;
+            color:#1a1a1a; font-family:'Nunito',sans-serif;
+            font-size:12.5px; line-height:1.5;
+            resize:none; max-height:80px; min-height:20px;
+        }
+        .widget-input::placeholder { color:#777; }
+        .widget-send {
+            width:30px; height:30px; border-radius:7px; border:none;
+            background:#1a1a2e; color:#ffffff;
+            cursor:pointer; flex-shrink:0;
+            display:flex; align-items:center; justify-content:center;
+            transition:all 0.15s;
+        }
+        .widget-send:hover:not(:disabled) { background:#2d3561; transform:translateY(-1px); }
+        .widget-send:disabled { opacity:0.4; cursor:not-allowed; }
+        .widget-powered { text-align:center; font-size:10px; color:#777; margin-top:7px; }
+        .widget-welcome { text-align:center; padding:20px 10px 10px; }
+        .widget-welcome-title { font-weight:700; font-size:13px; color:#1a1a2e; margin-bottom:4px; }
+        .widget-welcome-sub { font-size:11px; color:#777; line-height:1.5; }
+        .typing-dots {
+            display:flex; gap:4px; align-items:center;
+            padding:10px 14px; background:#f7f7f7;
+            border-radius:4px 14px 14px 14px;
+        }
+        .typing-dots span {
+            width:6px; height:6px; border-radius:50%;
+            background:#777; animation:blink 1.2s infinite;
+        }
+        .typing-dots span:nth-child(2) { animation-delay:0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay:0.4s; }
+        @keyframes blink { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
+
+        /* ═══ PRINT ═══ */
+        @media print {
+            .site-header, .chat-fab, .chat-widget { display: none !important; }
+            body { padding-top: 0 !important; background: #fff !important; color: #111 !important; }
+            .cover { background: #fff !important; min-height: auto !important; padding: 2rem !important; }
+            .cover-title { color: #111 !important; text-shadow: none !important; }
+            .cover-subtitle, .cover-tagline, .cover-name, .cover-eyebrow { color: #444 !important; }
+            .scroll-hint { display: none !important; }
+            .act-title { color: #111 !important; }
+            .act-number { color: #555 !important; }
+            .panel-narration { color: #222 !important; }
+            .narrator-bubble { color: #222 !important; background: #f5f5f5 !important; border-color: #ccc !important; }
+            .stats-section, .skills-section, .footer { background: #fff !important; }
+            .stat-number { color: #111 !important; }
+            .stat-label { color: #444 !important; }
+            .stat-card { border-color: #ddd !important; background: #f9f9f9 !important; }
+            .skill-card { border-color: #ddd !important; background: #f9f9f9 !important; }
+            .tag { color: #222 !important; background: #eee !important; }
+            .prophecy-line { color: #333 !important; }
+            .prophecy-line span { color: #0071CE !important; }
+            .footer-role, .footer-links a { color: #555 !important; }
+            .divider { background: #ddd !important; }
+            .panel { opacity: 1 !important; transform: none !important; }
+            .narrator { opacity: 1 !important; transform: none !important; }
+            .stat-card { opacity: 1 !important; transform: none !important; }
+            .skill-card { opacity: 1 !important; transform: none !important; }
+        }
+
+        /* ═══ RESPONSIVE ═══ */
+        @media (max-width: 580px) {
+            .panels-grid { grid-template-columns: 1fr; padding: 1rem 1.25rem 3rem; }
+            .narrator { padding: 0 1.25rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .site-header-role { display: none; }
+            .site-download { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════ SITE HEADER ══════════════════════ -->
+<header class="site-header">
+    <nav class="site-tabs">
+        <a href="index.wip2.html" class="site-tab">Textual Resume</a>
+        <span class="site-tab active">Visual Resume</span>
+    </nav>
+    <button class="site-download" onclick="window.print()">&#8595; Download PDF</button>
+</header>
+
+<!-- ══════════════════════ COVER ══════════════════════ -->
+<section class="cover">
+    <p class="cover-eyebrow">A Visual Resume Journey</p>
+    <h1 class="cover-title">RAVI<span class="dot">.</span>BOT</h1>
+    <p class="cover-subtitle">An Origin Story</p>
+    <p class="cover-tagline">"BOT wasn't just a nickname. It was a prophecy."</p>
+    <p class="cover-name">Ravi Kiran Achalla &nbsp;·&nbsp; Senior Engineering Manager II &nbsp;·&nbsp; Walmart</p>
+    <div class="scroll-hint">scroll</div>
+</section>
+
+<!-- ══════════════════════ ACT I ══════════════════════ -->
+<section class="act-section">
+    <div class="act-header">
+        <p class="act-number c1">Act I</p>
+        <h2 class="act-title c1">POWER ON</h2>
+        <div class="act-rule bg1"></div>
+    </div>
+
+    <div class="narrator" data-reveal>
+        <img src="profile.jpg" alt="Ravi Kiran" class="narrator-photo border1">
+        <div class="narrator-bubble">
+            Every origin story begins with a spark. Mine was a television screen in my cousin's living room. I was in Class 3 and nothing would ever be the same again.
+        </div>
+    </div>
+
+    <div class="panels-grid">
+        <div class="panel" data-reveal>
+            <img src="panels/1_start.png" alt="The spark" class="panel-img">
+            <p class="panel-narration border1 c1">Class 3. My cousin's house. I saw a video game for the first time. My jaw literally dropped. I couldn't stop thinking about how those characters moved, responded, and lived inside that screen.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/2_the_deal.png" alt="The deal" class="panel-img">
+            <p class="panel-narration border1 c1">I went home and negotiated the best deal of my young life with my dad. Rank #1 in class = 3 game cartridges. Rank #2 = 2. Anything else = nothing. We shook on it. Neither of us expected what came next.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/3_student.png" alt="The student" class="panel-img">
+            <p class="panel-narration border1 c1">Term after term, I topped my class. Not because of pressure — because I really, really wanted those games. The most effective study motivation ever invented.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/4_build.png" alt="The builder" class="panel-img">
+            <p class="panel-narration border1 c1">But playing wasn't enough. I wanted to understand how things worked. So I started building — battery-operated cars from household junk, small robots from spare parts. The first engineer was awakening.</p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════ ACT II ══════════════════════ -->
+<section class="act-section">
+    <div class="act-header">
+        <p class="act-number c2">Act II</p>
+        <h2 class="act-title c2">PLAYER 2 HAS ENTERED</h2>
+        <div class="act-rule bg2"></div>
+    </div>
+
+    <div class="narrator" data-reveal>
+        <img src="profile.jpg" alt="Ravi Kiran" class="narrator-photo border2">
+        <div class="narrator-bubble">
+            College at KIIT was where everything changed. I arrived a crouched, slightly obese nerd in thick glasses. Freedom transformed me in ways I never expected.
+        </div>
+    </div>
+
+    <div class="panels-grid">
+        <div class="panel" data-reveal>
+            <img src="panels/5_bot.png" alt="The BOT nickname" class="panel-img">
+            <p class="panel-narration border2 c2">My Counter Strike opponents called me BOT. I kept the name. It would prove more prophetic than anyone — including me — could have imagined.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/6_celebration.png" alt="Tech fest victory" class="panel-img">
+            <p class="panel-narration border2 c2">IIT Kharagpur Tech Fest. Robotics on the podium. Design and poster competitions at IITs — won multiple times. Turns out the crouched nerd from school had serious range.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/7_all.png" alt="College life" class="panel-img">
+            <p class="panel-narration border2 c2">Guitars, posters, robots, code. Jamming with friends, designing college fest materials, building things. College was where all the pieces of me came together for the first time.</p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════ ACT III ══════════════════════ -->
+<section class="act-section">
+    <div class="act-header">
+        <p class="act-number c3">Act III</p>
+        <h2 class="act-title c3">LOADING LEVEL 1</h2>
+        <div class="act-rule bg3"></div>
+    </div>
+
+    <div class="narrator" data-reveal>
+        <img src="profile.jpg" alt="Ravi Kiran" class="narrator-photo border3">
+        <div class="narrator-bubble">
+            2009. First job at TCS. I had no idea I was about to fall in love with something that would define my entire career.
+        </div>
+    </div>
+
+    <div class="panels-grid">
+        <div class="panel" data-reveal>
+            <img src="panels/8_enter_data.png" alt="Data obsession" class="panel-img">
+            <p class="panel-narration border3 c3">ETL, DataStage, data rivers flowing between systems — files to databases to XMLs, real-time and batch. Working for UK's largest apparel brand, Marks & Spencer. I didn't just move data. I fell obsessively in love with it.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/9_first_salary.png" alt="First salary" class="panel-img">
+            <p class="panel-narration border3 c3">First salary. First purchase: a Sony PS2 — still one of my most cherished possessions, with over 200 DVDs. Some priorities never change.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/10_canada.png" alt="Canada mission" class="panel-img">
+            <p class="panel-narration border3 c3">Ness Technologies, Bangalore. Great mentors, fast growth, and then — a flight to Canada. Small team, quick POC. We showed up, delivered, and came back with a contract to build a data warehouse for Canada's largest retail chain.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/11_Startup.png" alt="The startup" class="panel-img">
+            <p class="panel-narration border3 c3">In my off hours, a friend and I launched Khanaman — an online food delivery startup in Ranchi. We were honestly ahead of our time. The food was great. The business ran for 2 years, then closed. Every engineer has a startup story.</p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════ ACT IV ══════════════════════ -->
+<section class="act-section">
+    <div class="act-header">
+        <p class="act-number c4">Act IV</p>
+        <h2 class="act-title c4">WELCOME TO WALMART</h2>
+        <div class="act-rule bg4"></div>
+    </div>
+
+    <div class="narrator" data-reveal>
+        <img src="profile.jpg" alt="Ravi Kiran" class="narrator-photo border4">
+        <div class="narrator-bubble">
+            2015. I joined Walmart. I had never seen anything like it — geniuses everywhere, every technology available, and a scale that makes "large" sound small.
+        </div>
+    </div>
+
+    <div class="panels-grid">
+        <div class="panel" data-reveal>
+            <img src="panels/12_Enter_Walmart.png" alt="Enter Walmart" class="panel-img">
+            <p class="panel-narration border4 c4">A floor full of masters — Oracle Exadata, Greenplum, DataStage, Ab Initio, even mainframes. You named a technology and it was there. I walked in wide-eyed and never looked back. The Enterprise Data Warehouse on Teradata was the centrepiece.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/13_Big_Data.png" alt="Big Data wave" class="panel-img">
+            <p class="panel-narration border4 c4">The Big Data wave arrived. Hadoop, MapReduce, then Spark and PySpark. I loved the raw power of crunching massive datasets. Built end-to-end automations that delivered massive effort reduction — and won the Walmart Innovator Award for it.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/14_Patent.png" alt="The patent" class="panel-img">
+            <p class="panel-narration border4 c4">We built the Metrics Definition Tool — end-to-end from business metric definition to data layer to UI, cutting 4 months down to 2 weeks. The USPTO agreed it was worth protecting. Patent US11138241B2. That one felt earned.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/15_People_Leadership.png" alt="People leadership" class="panel-img">
+            <p class="panel-narration border4 c4">The best part of growing wasn't the systems — it was watching engineers evolve from 3 to 8 to 20+ and then watching them become leaders themselves. Building people who build systems.</p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════ ACT V ══════════════════════ -->
+<section class="act-section">
+    <div class="act-header">
+        <p class="act-number c5">Act V</p>
+        <h2 class="act-title c5">CLOUD WARS</h2>
+        <div class="act-rule bg5"></div>
+    </div>
+
+    <div class="narrator" data-reveal>
+        <img src="profile.jpg" alt="Ravi Kiran" class="narrator-photo border5">
+        <div class="narrator-bubble">
+            The next frontier: move everything to GCP. At Walmart International scale — Canada, Mexico, China, Central America — that means everything, all at once.
+        </div>
+    </div>
+
+    <div class="panels-grid">
+        <div class="panel" data-reveal>
+            <img src="panels/16_Cloud.png" alt="The great migration" class="panel-img">
+            <p class="panel-narration border5 c5">3,000+ Hadoop ETL pipelines migrated to GCP using a custom-built automated conversion framework. Migration timeline cut by 60%. Zero production data lost. This is what platform engineering looks like at Walmart scale.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/17_impact.png" alt="Impact panel" class="panel-img">
+            <p class="panel-narration border5 c5">At this scale, every decision is measured in millions. AI-powered fraud detection blocking $200M annually. Real-time Kafka-driven inventory management maintaining 95% on-shelf availability across all markets. $5M saved through rigorous FinOps.</p>
+        </div>
+        <div class="panel" data-reveal>
+            <img src="panels/18_data_product.png" alt="Data platformization" class="panel-img">
+            <p class="panel-narration border5 c5">The eCommerce 360 Data Product — a single-tenant platform serving every Walmart International market. One source of truth for analytics, data science, and applications. 1,000+ daily users. $20M business impact. Zero silos. Full platformisation.</p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════ ACT VI ══════════════════════ -->
+<section class="act-section">
+    <div class="act-header">
+        <p class="act-number c6">Act VI</p>
+        <h2 class="act-title c6">BOT BECOMES REAL</h2>
+        <div class="act-rule bg6"></div>
+    </div>
+
+    <div class="narrator" data-reveal>
+        <img src="profile.jpg" alt="Ravi Kiran" class="narrator-photo border6">
+        <div class="narrator-bubble">
+            Then in 2023, something arrived that gave me the exact same feeling as that television screen in my cousin's living room. Wide eyes. Everything changed. Again.
+        </div>
+    </div>
+
+    <div class="panels-grid">
+        <div class="panel" data-reveal>
+            <img src="panels/19_agent.png" alt="Agentic era" class="panel-img">
+            <p class="panel-narration border6 c6">LLMs, multi-agent systems, Claude Code, Google ADK, Microsoft Copilot Studio — production agentic pipelines automating data ingestion, pipeline generation, quality validation, and support triage. 40% reduction in manual engineering effort. A kid who loved how game characters responded. Now building agents that respond, learn, and act autonomously. BOT was always the destination.</p>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════ STATS ══════════════════════ -->
+<section class="stats-section">
+    <h2 class="section-heading cc">BY THE NUMBERS</h2>
+    <div class="stats-grid">
+        <div class="stat-card" data-reveal>
+            <div class="stat-number" data-count="15">0</div>
+            <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-card" data-reveal>
+            <div class="stat-number">1</div>
+            <div class="stat-label">US Patent Granted</div>
+        </div>
+        <div class="stat-card" data-reveal>
+            <div class="stat-number" data-count="200">0</div>
+            <div class="stat-label">$M Fraud Blocked Annually</div>
+        </div>
+        <div class="stat-card" data-reveal>
+            <div class="stat-number" data-count="3000">0</div>
+            <div class="stat-label">Pipelines Migrated to GCP</div>
+        </div>
+        <div class="stat-card" data-reveal>
+            <div class="stat-number" data-count="1000">0</div>
+            <div class="stat-label">Daily Platform Users</div>
+        </div>
+        <div class="stat-card" data-reveal>
+            <div class="stat-number" data-count="40">0</div>
+            <div class="stat-label">% Effort Reduced by Agents</div>
+        </div>
+        <div class="stat-card" data-reveal>
+            <div class="stat-number" data-count="5">0</div>
+            <div class="stat-label">International Markets Served</div>
+        </div>
+        <div class="stat-card" data-reveal>
+            <div class="stat-number">3×</div>
+            <div class="stat-label">Walmart Excellence Award</div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════ SKILLS ══════════════════════ -->
+<section class="skills-section">
+    <h2 class="section-heading cc" style="text-align:center; margin-bottom: 2.5rem;">POWER-UPS COLLECTED</h2>
+    <div class="skills-grid">
+        <div class="skill-card" data-reveal>
+            <div class="skill-card-title c6">Agentic AI & LLM Engineering</div>
+            <div class="tag-list">
+                <span class="tag">Claude Code</span>
+                <span class="tag">Google ADK</span>
+                <span class="tag">Copilot Studio</span>
+                <span class="tag">Multi-Agent Systems</span>
+                <span class="tag">RAG</span>
+                <span class="tag">LangChain</span>
+                <span class="tag">Prompt Engineering</span>
+                <span class="tag">GPT-4</span>
+                <span class="tag">Gemini</span>
+            </div>
+        </div>
+        <div class="skill-card" data-reveal>
+            <div class="skill-card-title c4">Cloud & Data Platform</div>
+            <div class="tag-list">
+                <span class="tag">GCP BigQuery</span>
+                <span class="tag">Dataproc</span>
+                <span class="tag">GCS</span>
+                <span class="tag">Pub/Sub</span>
+                <span class="tag">Apache Spark</span>
+                <span class="tag">Hadoop</span>
+                <span class="tag">Data Lakehouse</span>
+                <span class="tag">Apache Hudi</span>
+                <span class="tag">Terraform</span>
+                <span class="tag">FinOps</span>
+            </div>
+        </div>
+        <div class="skill-card" data-reveal>
+            <div class="skill-card-title c5">Data Strategy & Architecture</div>
+            <div class="tag-list">
+                <span class="tag">Data Products</span>
+                <span class="tag">Data Mesh</span>
+                <span class="tag">Platform Engineering</span>
+                <span class="tag">Data Modeling</span>
+                <span class="tag">MLOps</span>
+                <span class="tag">Digital Transformation</span>
+                <span class="tag">3-Year Roadmap</span>
+            </div>
+        </div>
+        <div class="skill-card" data-reveal>
+            <div class="skill-card-title c3">Programming & Data Engineering</div>
+            <div class="tag-list">
+                <span class="tag">Python</span>
+                <span class="tag">PySpark</span>
+                <span class="tag">Scala</span>
+                <span class="tag">SQL</span>
+                <span class="tag">IBM DataStage</span>
+                <span class="tag">dbt</span>
+                <span class="tag">Airflow</span>
+                <span class="tag">Kafka</span>
+            </div>
+        </div>
+        <div class="skill-card" data-reveal>
+            <div class="skill-card-title c1">Executive Leadership</div>
+            <div class="tag-list">
+                <span class="tag">Teams up to 25+</span>
+                <span class="tag">P&L Oversight</span>
+                <span class="tag">Executive Stakeholders</span>
+                <span class="tag">Talent Development</span>
+                <span class="tag">OKRs</span>
+                <span class="tag">Vendor Management</span>
+            </div>
+        </div>
+        <div class="skill-card" data-reveal>
+            <div class="skill-card-title c2">Governance & Quality</div>
+            <div class="tag-list">
+                <span class="tag">Data Governance</span>
+                <span class="tag">Data Quality</span>
+                <span class="tag">Data Lineage</span>
+                <span class="tag">Dataplex</span>
+                <span class="tag">Data Catalog</span>
+                <span class="tag">GDPR & Compliance</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer class="footer">
+    <p class="prophecy-line">"BOT WASN'T JUST A NICKNAME.<br>IT WAS A <span>PROPHECY</span>."</p>
+    <p class="footer-role">Ravi Kiran Achalla &nbsp;·&nbsp; Senior Engineering Manager II &nbsp;·&nbsp; Walmart &nbsp;·&nbsp; Bengaluru</p>
+    <div class="footer-links">
+        <a href="https://www.linkedin.com/in/ravikiran-achalla" target="_blank">LinkedIn</a>
+        <a href="https://github.com/achallakiran" target="_blank">GitHub</a>
+        <a href="resume.pdf" target="_blank">Resume PDF</a>
+        <a href="index.html">Back to Home</a>
+    </div>
+</footer>
+
+<!-- ══════════════════════ CHAT WIDGET ══════════════════════ -->
+<button class="chat-fab" id="chatFab" title="Chat with Ravi Kiran's AI">
+  <img src="profile.jpg" class="fab-photo" alt="Ravi Kiran" onerror="this.style.display='none'"/>
+  <span class="fab-label">Chat with Ravi Kiran</span>
+  <div class="fab-dot"></div>
+</button>
+
+<div class="chat-widget" id="chatWidget">
+  <div class="widget-header">
+    <div class="widget-avatar">
+      <img src="profile.jpg" alt="Ravi Kiran" onerror="this.style.display='none';this.parentElement.textContent='👨‍💻'"/>
+    </div>
+    <div>
+      <div class="widget-name">Ravi Kiran's AI Assistant</div>
+      <div class="widget-sub">Ask about experience &amp; skills</div>
+    </div>
+    <button class="widget-close" id="chatClose">×</button>
+  </div>
+  <div class="widget-messages" id="widgetMessages">
+    <div class="widget-welcome" id="widgetWelcome">
+      <div class="widget-welcome-title">Hi there! 👋</div>
+      <div class="widget-welcome-sub">Ask me anything about Ravi Kiran's background, projects, and achievements.</div>
+    </div>
+  </div>
+  <div class="widget-suggestions" id="widgetSuggestions">
+    <button class="suggestion-btn">Current role?</button>
+    <button class="suggestion-btn">Agentic AI work?</button>
+    <button class="suggestion-btn">Cloud cost savings?</button>
+    <button class="suggestion-btn">Patent details</button>
+  </div>
+  <div class="widget-input-area">
+    <div class="widget-input-row">
+      <textarea class="widget-input" id="widgetInput" placeholder="Ask anything about Ravi Kiran..." rows="1"></textarea>
+      <button class="widget-send" id="widgetSend">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+    <div class="widget-powered">Powered by Sarvam AI</div>
+  </div>
+</div>
+
+<script>
+    // Scroll reveal via IntersectionObserver
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                const counter = entry.target.querySelector('[data-count]');
+                if (counter && !counter.dataset.animated) {
+                    counter.dataset.animated = '1';
+                    animateCount(counter);
+                }
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+
+    // Stagger child panels within grids
+    document.querySelectorAll('.panels-grid').forEach(grid => {
+        const panels = grid.querySelectorAll('.panel');
+        const gridObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    panels.forEach((p, i) => {
+                        setTimeout(() => p.classList.add('visible'), i * 120);
+                    });
+                    gridObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.05 });
+        gridObserver.observe(grid);
+    });
+
+    // Chatbot
+    const CONFIG = {
+      SARVAM_API_KEY: 'sk_qu6g8mnt_nePcCAI7nfl3Ssk8pdzqG1zl',
+      SARVAM_API_URL: 'https://api.sarvam.ai/v1/chat/completions',
+      SARVAM_MODEL:   'sarvam-m',
+      SYSTEM_PROMPT:  "You are Ravi Kiran Achalla. Respond as yourself in first person.\n\nSTRICT RULES — follow these without exception:\n1. You may think internally, but your FINAL response MUST be wrapped in [ANSWER] and [/ANSWER] tags.\n   Example: [ANSWER] Hi! Ask me anything about my experience. [/ANSWER]\n2. ONLY the text inside [ANSWER]...[/ANSWER] will be shown to the user. Everything outside is hidden.\n3. Use \"I\", \"my\", \"me\" always inside the answer. Never say \"Ravi Kiran Kiran\" or \"Ravi Kiran Achalla\".\n4. Keep the answer to 2-3 sentences max unless more detail is explicitly asked.\n5. For greetings like \"hi\" — one warm sentence inside the tags, offer to help.\n\nYOUR BACKGROUND:\n\nCURRENT ROLE: Senior Engineering Manager II, AI-Powered Data Platforms at Walmart (Nov 2023 – Present)\n- Pioneered enterprise Agentic AI practice for Data Engineering at Walmart International — designed and deployed production multi-agent systems using Claude Code (Anthropic), Microsoft Copilot Studio, and Google ADK, automating data ingestion, pipeline generation, data quality validation, and Tier-1 support triage. — >40% reduction in manual engineering effort across international markets\n- Defined and executing a 3-year AI-first Data Platform Strategy (2024–2027) — consolidating 5 siloed international markets onto a unified GCP Data Lakehouse. — 20% efficiency gains projected\n- Architected and governed Multi-Tenant eCommerce 360 Data Product. — $20M positive impact\n- Engineered Peta-Scale enterprise Data Lakehouse on GCP. — 800+ internal users\n- Directed Global Supplier KPI Analytics Platform. — $15M in revenue through data monetization\n- Transformed FinOps. — $50M in annual cloud savings\n- Led 18 Data Engineers; promoted 4 across senior and staff tracks.\n\nPREVIOUS ROLES:\n- Staff Data Engineer & Senior Manager I, Walmart (Jun 2021 – Oct 2023)\n- Senior Data Engineer, Walmart (Feb 2018 – May 2021): US Patent US11138241B2 — Metrics Definition Tool\n- Data Engineer, Walmart (Feb 2015 – Jan 2018)\n- ETL Technical Lead, Canadian Tire Corporation (Jul 2012 – Jan 2015)\n- ETL Developer, Marks & Spencer (Nov 2009 – Jun 2012)\n\nSKILLS: Claude Code, Microsoft Copilot Studio, Google ADK, Multi-Agent Systems, LLM, RAG, GCP BigQuery, Dataproc, Apache Spark, Hadoop, Python, PySpark, Scala, Kafka, Airflow, Terraform, Data Products, Data Mesh, Data Modeling, MLOps, Teradata, Cassandra, Neo4j, Leadership 25+\n\nEDUCATION: B.Tech CSE, KIIT, 2009 (CGPA 8.5)\nPATENT: US11138241B2 — Metrics Definition Tool\nAWARDS: Excellence Award (2024, 2018, 2011), Spark Hackathon Winner (2022), Inspiring Innovation Award (2021)\n\nIf asked something not in your background, say you'd be happy to discuss it directly at achallakiran@gmail.com."
+    };
+    const fab    = document.getElementById('chatFab');
+    const widget = document.getElementById('chatWidget');
+    document.getElementById('chatClose').addEventListener('click', () => widget.classList.remove('open'));
+    document.querySelectorAll('.suggestion-btn').forEach(btn => {
+      btn.addEventListener('click', () => { sendMessage(btn.textContent); document.getElementById('widgetSuggestions').style.display = 'none'; });
+    });
+    const input = document.getElementById('widgetInput');
+    input.addEventListener('input', () => { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 80) + 'px'; });
+    input.addEventListener('keydown', ev => { if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); sendMessage(input.value); } });
+    const POSES = { default: 'profile.jpg', greet: 'hi.png', think: 'think.png', answer: 'answer.png', unsure: 'notsure.png' };
+    function setHeaderPose(pose) { const img = document.querySelector('.widget-avatar img'); if (img) img.src = POSES[pose] || POSES.default; }
+    const history = []; let loading = false;
+    fab.addEventListener('click', () => { widget.classList.toggle('open'); if (widget.classList.contains('open')) { document.getElementById('widgetInput').focus(); setHeaderPose('greet'); } });
+    function scrollBottom() { const m = document.getElementById('widgetMessages'); m.scrollTop = m.scrollHeight; }
+    function fmt(text) { return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/^[-•] (.+)/gm, '<li>$1</li>').replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>').split('\n\n').map(b => b.trim() ? (b.startsWith('<') ? b : `<p>${b.replace(/\n/g,'<br>')}</p>`) : '').join(''); }
+    function poseForReply(text) { const l = text.toLowerCase(); if (l.includes("don't have") || l.includes("not sure") || l.includes("not covered") || l.includes("⚠️")) return 'unsure'; return 'answer'; }
+    function appendMsg(role, text) {
+      const welcome = document.getElementById('widgetWelcome'); if (welcome) welcome.remove();
+      const wrap = document.createElement('div'); wrap.className = `wmsg ${role}`;
+      const avatar = document.createElement('div'); avatar.className = 'wmsg-avatar';
+      if (role === 'bot') { const pose = poseForReply(text); avatar.innerHTML = `<img src="${POSES[pose]}" onerror="this.src='${POSES.default}'">`; setHeaderPose(pose); } else { avatar.textContent = '👤'; }
+      const bubble = document.createElement('div'); bubble.className = 'wmsg-bubble';
+      if (role === 'bot') bubble.innerHTML = fmt(text); else bubble.textContent = text;
+      wrap.appendChild(avatar); wrap.appendChild(bubble);
+      document.getElementById('widgetMessages').appendChild(wrap); scrollBottom();
+    }
+    function showTyping() { setHeaderPose('think'); const wrap = document.createElement('div'); wrap.className = 'wmsg bot'; wrap.id = 'typingWrap'; const av = document.createElement('div'); av.className = 'wmsg-avatar'; av.innerHTML = `<img src="${POSES.think}" onerror="this.src='${POSES.default}'">`;  const dots = document.createElement('div'); dots.className = 'typing-dots'; dots.innerHTML = '<span></span><span></span><span></span>'; wrap.appendChild(av); wrap.appendChild(dots); document.getElementById('widgetMessages').appendChild(wrap); scrollBottom(); }
+    function hideTyping() { const el = document.getElementById('typingWrap'); if (el) el.remove(); }
+    async function callSarvam(msg) {
+      if (!CONFIG.SARVAM_API_KEY || CONFIG.SARVAM_API_KEY.startsWith('YOUR_')) return "⚠️ API key not configured.";
+      history.push({ role: 'user', content: msg });
+      const r = await fetch(CONFIG.SARVAM_API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'api-subscription-key': CONFIG.SARVAM_API_KEY }, body: JSON.stringify({ model: CONFIG.SARVAM_MODEL, messages: [{ role: 'system', content: CONFIG.SYSTEM_PROMPT }, ...history], max_tokens: 600 }) });
+      if (!r.ok) throw new Error(`${r.status}`);
+      const data = await r.json();
+      const raw = data.choices[0].message.content;
+      const idx = raw.lastIndexOf('[ANSWER]');
+      const reply = (idx !== -1 ? raw.slice(idx + '[ANSWER]'.length) : raw).replace(/\[\/ANSWER\]/gi, '').trim();
+      history.push({ role: 'assistant', content: reply }); return reply;
+    }
+    async function sendMessage(text) {
+      text = text.trim(); if (!text || loading) return;
+      input.value = ''; input.style.height = 'auto';
+      appendMsg('user', text); loading = true; document.getElementById('widgetSend').disabled = true; showTyping();
+      try { const reply = await callSarvam(text); hideTyping(); appendMsg('bot', reply); }
+      catch(err) { hideTyping(); appendMsg('bot', '⚠️ Something went wrong. Please try again.'); setHeaderPose('unsure'); }
+      finally { loading = false; document.getElementById('widgetSend').disabled = false; }
+    }
+    document.getElementById('widgetSend').addEventListener('click', () => sendMessage(input.value));
+
+    // Stats counter animation
+    function animateCount(el) {
+        const target = parseInt(el.getAttribute('data-count'));
+        const suffix = target >= 1000 ? '+' : target === 40 ? '%' : '+';
+        const duration = 1400;
+        const steps = 60;
+        const increment = target / steps;
+        let current = 0;
+        let step = 0;
+
+        const timer = setInterval(() => {
+            step++;
+            current = Math.min(Math.round(increment * step), target);
+            el.textContent = current >= 1000
+                ? current.toLocaleString() + suffix
+                : current + suffix;
+            if (step >= steps) {
+                el.textContent = target >= 1000
+                    ? target.toLocaleString() + '+'
+                    : target + suffix;
+                clearInterval(timer);
+            }
+        }, duration / steps);
+    }
+</script>
+
+</body>
+</html>
